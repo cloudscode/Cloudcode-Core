@@ -6,11 +6,6 @@ import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
 import org.hibernate.criterion.Restrictions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.data.redis.connection.RedisConnection;
-import org.springframework.data.redis.core.RedisCallback;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.cloudcode.framework.dao.TreeNodeModelObjectDao;
@@ -22,14 +17,13 @@ import com.cloudcode.framework.utils.PaginationSupport;
 import com.cloudcode.framework.utils.UUID;
 import com.cloudcode.menu.ProjectConfig;
 import com.cloudcode.menu.model.Menu;
-import com.cloudcode.usersystem.model.User;
 
 @Repository
 @Transactional
 public class MenuDao extends BaseTreeNodeDaoImpl<Menu> {
 	
-	@Autowired  
-	private RedisTemplate redisTemplate;
+	//@Autowired  
+	//private RedisTemplate redisTemplate;
 	
 	@Resource(name = ProjectConfig.PREFIX + "menuDao")
 	private TreeNodeModelObjectDao<Menu> menuDao;
@@ -40,7 +34,7 @@ public class MenuDao extends BaseTreeNodeDaoImpl<Menu> {
 		}
 		menuDao.createObject(entity);
 	}
-	public void test(){
+	/*public void test(){
 		String key=UUID.generateUUID();
 		final User user2 = new User();
 		user2.setId(key);
@@ -58,7 +52,7 @@ public class MenuDao extends BaseTreeNodeDaoImpl<Menu> {
 				return null;
 			}
 		});
-	}
+	}*/
 	public  List<Menu> queryDataTreeByPid(String node) {
 		HQLObjectParamList hqlParamList = new HQLObjectParamList()
 				.addCondition(Restrictions.eq("node", node));

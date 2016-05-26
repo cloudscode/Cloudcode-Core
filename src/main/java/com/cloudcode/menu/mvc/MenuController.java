@@ -12,10 +12,7 @@ import net.sf.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,8 +40,8 @@ import com.google.gson.JsonArray;
 public class MenuController extends CrudController<Menu> {
 	@Autowired
 	private MenuDao menuDao;
-	@Autowired
-	private RedisTemplate redisTemplate;
+	//@Autowired
+	//private RedisTemplate redisTemplate;
 
 	@RequestMapping(value = "/loadAll", method = { RequestMethod.POST,
 			RequestMethod.GET })
@@ -64,17 +61,17 @@ public class MenuController extends CrudController<Menu> {
 			jsonObject
 					.put("rows",
 							"{\"action\":\"e32324\",\"id\":\"cfbbd713ee3e4d90aeda010ae4f3f075\"}");
-			menuDao.test();
+			//menuDao.test();
 			String key = UUID.generateUUID();
 			User user2 = new User();
 			user2.setId(key);
 			user2.setName("test");
-			ValueOperations<String, User> valueops = redisTemplate
+			/*ValueOperations<String, User> valueops = redisTemplate
 					.opsForValue();
-			valueops.set(user2.getId(), user2);
+			valueops.set(user2.getId(), user2);*/
 
-			User user = valueops.get(key);
-			System.out.println(user.getName());
+			//User user = valueops.get(key);
+			//System.out.println(user.getName());
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
