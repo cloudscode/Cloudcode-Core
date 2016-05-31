@@ -12,6 +12,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<com.fasterxml.jackson.version>2.5.2</com.fasterxml.jackson.version>
 	</properties>
 
 	<dependencies>
@@ -26,5 +27,25 @@
 			<artifactId>Cloudcode-Framework</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>com.octo.captcha</groupId>
+			<artifactId>jcaptcha</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>    
+	    	<groupId>com.fasterxml.jackson.core</groupId>    
+		    <artifactId>jackson-databind</artifactId>    
+		    <version>${com.fasterxml.jackson.version}</version>    
+		</dependency>  
+		<dependency>    
+	    	<groupId>com.fasterxml.jackson.core</groupId>    
+		    <artifactId>jackson-core</artifactId>    
+		    <version>${com.fasterxml.jackson.version}</version>    
+		</dependency> 
+		<dependency>    
+	    	<groupId>com.fasterxml.jackson.core</groupId>    
+		    <artifactId>jackson-annotations</artifactId>    
+		    <version>${com.fasterxml.jackson.version}</version>    
+		</dependency>  
 	</dependencies>
 </project>

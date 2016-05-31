@@ -14,7 +14,7 @@ import com.cloudcode.usersystem.model.Role;
 import com.cloudcode.usersystem.model.User;
 
 @ModuleConfig(name=ProjectConfig.NAME,domainPackages={"com.cloudcode.usersystem.model"})
-@ComponentScan(basePackages={"com.cloudcode.usersystem.*"},nameGenerator=ProjectBeanNameGenerator.class, excludeFilters={@org.springframework.context.annotation.ComponentScan.Filter({Configuration.class})})
+@ComponentScan(basePackages={"com.cloudcode.usersystem.*","com.cloudcode.common.*"},nameGenerator=ProjectBeanNameGenerator.class, excludeFilters={@org.springframework.context.annotation.ComponentScan.Filter({Configuration.class})})
 @PropertySource(name="cloudcode.evn",value={"classpath:proj.properties"})
 public class ProjectConfig {
 public static final String NAME="us";
