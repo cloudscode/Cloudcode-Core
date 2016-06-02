@@ -2,6 +2,7 @@ package com.cloudcode.organization.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -54,7 +55,7 @@ public class Staff extends BaseModelObject{
 	// private List<String> jobIds;
 	// private List<ContactInfo> contactInfos;
 	// private ContactInfo primaryContactInfo;
-	private Integer index;
+	private Integer index_;
 	private Date modifiyDate;
 	private String email;
 
@@ -313,13 +314,13 @@ public class Staff extends BaseModelObject{
 	public void setRankId(String rankId) {
 		this.rankId = rankId;
 	}
-
-	public Integer getIndex() {
-		return index;
+	@Column(name="index_",length = 10)
+	public Integer getIndex_() {
+		return index_;
 	}
 
-	public void setIndex(Integer index) {
-		this.index = index;
+	public void setIndex_(Integer index_) {
+		this.index_ = index_;
 	}
 
 	public Date getModifiyDate() {
