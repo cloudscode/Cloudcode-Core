@@ -26,7 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     
 	public UserDetails loadUserByUsername(String loginName) throws UsernameNotFoundException {
 		
-		com.cloudcode.usersystem.model.User userModel = this.userDao.findObjectById(loginName);
+		com.cloudcode.usersystem.model.User userModel = this.userDao.findObjectByLoginId(loginName);
 	    if (userModel == null) {
 	        throw new UsernameNotFoundException(new MessageFormat("用户 {0} 不存在").format(new Object[] { loginName }));
 	    }
@@ -34,11 +34,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	    Set<GrantedAuthority> grantedAuths = obtionGrantedAuthorities();
         
 	    User userdetail = new UserPrincipal(userModel.getUserName(), 
-                            	            userModel.getPassword(),
                             	            userModel.getLoginId(),
-                            	            "role",
+                            	            userModel.getLoginId(),
+                            	            "ROLE_USER",
                             	            "",
-                            	            userModel.getPassword(), 
+                            	           userModel.getPassword(), 
                             	            true,
                             	            true,
                             	            true,

@@ -32,7 +32,9 @@ public class UserDao extends BaseModelObjectDao<User> {
 		List<Object> list=null;
 		return this.queryPaginationSupport(User.class, hqlParamList, pageRange);
 	}
-	
+	public User findObjectByLoginId(String loginId) {
+		return userDao.findObject("loginId",loginId);
+	}
 	public User findObjectById(String id) {
 		User user = userDao.findEntityByPK(User.class, id);
 		/*List<userDao> hhXtYhJsList = userDao.queryList(User.class,
