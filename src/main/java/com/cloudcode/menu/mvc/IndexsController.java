@@ -37,5 +37,10 @@ public class IndexsController{
 		
 		return modelAndView;
 	}
-
+	@RequestMapping(value = "menu")
+	public ModelAndView menu() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("classpath:com/cloudcode/menu/ftl/menu.ftl");
+		return modelAndView;
+	}
 }
