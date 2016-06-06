@@ -116,8 +116,7 @@ public class MenuController extends CrudController<Menu> {
 		modelAndView.setViewName("classpath:com/cloudcode/menu/ftl/list.ftl");
 		modelAndView.addObject("result", "cloudcode");
 		return modelAndView;
-	}
-
+	}	
 	@RequestMapping(value = "create")
 	public ModelAndView create() {
 		ModelAndView modelAndView = new ModelAndView();
