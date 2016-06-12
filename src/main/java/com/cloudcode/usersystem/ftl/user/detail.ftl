@@ -37,6 +37,12 @@
 	    </div>
   </div>
   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">账号</label>
+	    <div class="col-sm-10">
+	      <input type="text" name="loginId" class="form-control" id="loginId" placeholder="账号">
+	    </div>
+  </div>
+  <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">描述</label>
 	    <div class="col-sm-10">
 	      <input type="text" name="description" class="form-control" id="description" placeholder="描述">

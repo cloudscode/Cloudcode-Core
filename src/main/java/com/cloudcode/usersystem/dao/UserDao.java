@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.cloudcode.framework.dao.BaseModelObjectDao;
@@ -11,6 +12,7 @@ import com.cloudcode.framework.dao.ModelObjectDao;
 import com.cloudcode.framework.utils.HQLParamList;
 import com.cloudcode.framework.utils.PageRange;
 import com.cloudcode.framework.utils.PaginationSupport;
+import com.cloudcode.framework.utils.StringUtils;
 import com.cloudcode.framework.utils.UUID;
 import com.cloudcode.usersystem.ProjectConfig;
 import com.cloudcode.usersystem.model.User;
@@ -23,6 +25,14 @@ public class UserDao extends BaseModelObjectDao<User> {
 	public void addUser(User entity) {
 		if(null == entity.getId() || "".equals(entity.getId())){
 			entity.setId(UUID.generateUUID());
+			String password = entity.getPassword();
+			if(!StringUtils.isEmpty(password)){
+				password = password;
+				Md5PasswordEncoder md5 = new Md5PasswordEncoder();       
+				md5.setEncodeHashAsBase64(false);       
+				String pwd = md5.encodePassword(entity.getPassword(), entity.getLoginId());    
+				entity.setPassword(password);
+			}
 		}
 		userDao.createObject(entity);
 	}
