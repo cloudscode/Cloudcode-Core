@@ -37,7 +37,13 @@ public class UserController  extends CrudController<User>{
 		String text = request.getParameter("text");
 		userDao.addUser(user);
 	}
-
+	@RequestMapping(value = "/test")
+	public @ResponseBody
+	Object test( HttpServletRequest request) {
+		String text = request.getParameter("text");
+		System.out.println(text);
+		return new ServiceResult(ReturnResult.SUCCESS);
+	}
 	@RequestMapping(value = "/{id}/updateUser", method = { RequestMethod.POST,
 			RequestMethod.GET })
 	public @ResponseBody
