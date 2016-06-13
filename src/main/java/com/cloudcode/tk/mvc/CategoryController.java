@@ -171,7 +171,11 @@ public class CategoryController extends CrudController<Category> {
 			maps.put("id", category.getId());
 			maps.put("name", category.getName());
 			maps.put("pId", category.getNode());
-			maps.put("isParent", true);
+			if(null != category.getChildren()){
+				maps.put("isParent", category.getChildren().size() >0?true:false);
+			}else{
+				maps.put("isParent", false);
+			}
 			listMap.add(maps);
 		}
 		return JSONArray.fromObject(listMap);

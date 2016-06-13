@@ -34,6 +34,10 @@
       <input type="text" name="action" class="form-control" id="action" placeholder="动作">
     </div>
   </div>
+  <#--
+  <div class="form-group">
+   <span ftype="text" configVar=""> </span>
+  </div>-->
   
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
