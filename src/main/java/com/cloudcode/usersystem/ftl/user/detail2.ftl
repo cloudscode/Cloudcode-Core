@@ -1,101 +1,93 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-   <#include "classpath:com/cloudcode/framework/common/ftl/head.ftl"/>
-</head>
 
-<body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true"> 
 <div id="dialogDiv">
 <div class="container" id="layout" style="width: 100%;">
-<form role="form" class="form-horizontal" id="myFormId" action="${request.getContextPath()}/categories/createCategory" method="post">
+<form role="form" class="form-horizontal" id="myFormId" action="${request.getContextPath()}/users/createUser" method="post">
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">名称</label>
-    <div class="col-sm-4">
-      <input type="text" name="text" class="form-control" id="text" placeholder="名称">
-    </div>
-     <label for="inputPassword3" class="col-sm-2 control-label">父节点</label>
-    <div class="col-sm-4">
-    <div class="input-group">
-      <input type="text" class="form-control" name="selectText" id="selectText">
-       <input type="hidden" name="node" id="selectTextVal">
-      <span class="input-group-btn">
-        <button class="btn btn-default" type="button" >选择</button>
-      </span>
-      <div id="categoryContent"  style="position:absolute;left: 10px;top: 29px;z-index: 100;background: #ebebeb;display:none"  class="zTreeDemoBackground left">
-        <ul id="treeDemo" class="ztree" ></ul> 
-      </div>
-    </div><!-- /input-group -->
-       <input type="hidden" value="" id="oid" name="id" >
-	</div>
+    <label for="inputEmail3" class="col-sm-2 control-label">姓名</label>
+	    <div class="col-sm-4">
+	      <input type="text" name="name" class="form-control" id="name" placeholder="姓名">
+	    </div>
+	    <label for="inputPassword3" class="col-sm-2 control-label">性别</label>
+	    <div class="col-sm-4">   
+	     	<label class="radio-inline">
+			    <input type="radio" name="sex" id="sex-male" value="0" checked>
+				    男
+			  </label>
+			<label class="radio-inline">
+			    <input type="radio" name="sex" id="sex-female" value="1">
+			   		 女
+			  </label>
+		</div>
     </div>
    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">动作</label>
-    <div class="col-sm-10">
-      <input type="text" name="action" class="form-control" id="action" placeholder="动作">
-    </div>
-  </div>
-  <#--
-  <div class="form-group">
-   <span ftype="text" configVar=""> </span>
-  </div>-->
-  <div class="form-group">
-  
-  <div class="input-group">
-	    <input type="text" class="form-control" id="totalEnd" name="totalEnd" placeholder="">
-	    <span class="input-group-addon" name="selectBtn" id="selectBtn">到</span>
+    <label for="inputEmail3" class="col-sm-2 control-label">手机</label>
+	    <div class="col-sm-4">
+	      <input type="text" name="phone" class="form-control" id="phone" placeholder="手机">
 	    </div>
-	   </div> 
-	    
-	    
+     <label for="inputEmail3" class="col-sm-2 control-label">邮箱</label>
+	    <div class="col-sm-4">
+	      <input type="text" name="email" class="form-control" id="email" placeholder="邮箱">
+	    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">账号</label>
+	    <div class="col-sm-10">
+	      <input type="text" name="loginId" class="form-control" id="loginId" placeholder="账号">
+	    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">描述</label>
+	    <div class="col-sm-10">
+	      <input type="text" name="description" class="form-control" id="description" placeholder="描述">
+	    </div>
+  </div>
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
        <button type="button" id="updateButton" class="btn btn-default">save</button>
     </div>
   </div>
-</form>
+   <input type="hidden" value="" id="oid" name="id" >
 
-</div>
-<#include "classpath:com/cloudcode/framework/common/ftl/vendor.ftl"/>
+
 <script type="text/javascript">
 $('#selectText').on("focus", function(){
-   showCategory(); // $("#treeDemo").css('display','block'); 
+   showUser(); 
 });
 $('#selectBtn').on('click',function(){
-  showCategory();  // $("#treeDemo").css('display','block'); 
+  showUser();  
 });
-function showCategory() {
+function showUser() {
 	var cityObj = $("#selectTextVal");
 	var cityOffset = $("#selectTextVal").offset();
-	$("#categoryContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
-
+	$("#UserContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
 	$("body").bind("mousedown", onBodyDown);
 }
-function hideCategory() {
-	$("#categoryContent").fadeOut("fast");
+function hideUser() {
+	$("#UserContent").fadeOut("fast");
 	$("body").unbind("mousedown", onBodyDown);
 }
 function onBodyDown(event) {
-	if (!(event.target.id == "selectBtn" || event.target.id == "citySel" || event.target.id == "categoryContent" || $(event.target).parents("#categoryContent").length>0)) {
-		hideCategory();
+	if (!(event.target.id == "selectBtn" || event.target.id == "citySel" || event.target.id == "UserContent" || $(event.target).parents("#UserContent").length>0)) {
+		hideUser();
 	}
 }
 var hm = $("body").wHumanMsg();
 $(function () {
-    //####### Buttons
-   // $("#layout button,.button,#sampleButton").button();
    if('${entityAction}' =='update'){
 	   $('#updateButton').click( function() {
 				     if($('#selectTextVal').val() ==''){
 				     	$('#selectTextVal').val('root');
 				     }
 	      		   $.ajax({
-				        url: '${request.getContextPath()}/categories/'+$("#oid").val()+'/updateCategory',
+				        url: '${request.getContextPath()}/users/'+$("#oid").val()+'/updateUser',
 				        type: 'post',
 				        dataType: 'json',
 				        data:$('form#myFormId').serialize(),
 				        success: function(data) {
 				       		 $('body').wHumanMsg('theme', 'black').wHumanMsg('msg', '数据保存成功！', {fadeIn: 300, fadeOut: 300});
-				        	 $('.ui-dialog-titlebar-close').trigger('click');
+				       		  debugger;
+				       		   divInDialogs[0].close();
+				        	 //$('.ui-dialog-titlebar-close').trigger('click');
 				           }
 			    });
 		});
@@ -105,13 +97,15 @@ $(function () {
 			     	$('#selectTextVal').val('root');
 			     }
 			    $.ajax({
-			        url: '${request.getContextPath()}/categories/createCategory',
+			        url: '${request.getContextPath()}/users/createUser',
 			        type: 'post',
 			        dataType: 'json',
 			        data: $('form#myFormId').serialize(),
 			        success: function(data) {
 			       		 $('body').wHumanMsg('theme', 'black').wHumanMsg('msg', '数据保存成功！', {fadeIn: 300, fadeOut: 300});
-			       		 $('.ui-dialog-titlebar-close').trigger('click');
+			       		 debugger;
+			       		 divInDialogs[0].close();
+			       		 //$('.ui-dialog-titlebar-close').trigger('click');
 			         }
 			    });
 		});
@@ -121,23 +115,22 @@ $(function () {
 	    modal: true,
 	    buttons: {
 	        Ok: function () {
-	        	//$('#divInDialog').dialog("close");
 	            $(this).dialog("close");
-	           
 	        }
 	    }
 	});
 	if('${entityAction}' =='update'){
-		<#if category?exists>  
-		$('#text').val('${category.text!''}');
-		$('#action').val('${category.action!''}');
-		$('#selectTextVal').val('${category.node!''}');
-		$('#oid').val('${category.id!''}');
+		<#if user?exists>  
+			$('#name').val('${user.name!''}');
+			$('#phone').val('${user.phone!''}');
+			$('#email').val('${user.email!''}');
+			$('input:radio[name="sex"]').filter('[value=${user.sex!''}]').attr('checked', true);
+			$('#oid').val('${user.id!''}');
 		</#if>
 	}
 });
+/*
 function zTreeOnDblClick(event, treeId, treeNode) {
-    //alert(treeNode ? treeNode.tId + ", " + treeNode.name : "isRoot");
      $('#selectText').val(treeNode.name); 
      $('#selectTextVal').val(treeNode.tId);
       $("#treeDemo").css('display','none');
@@ -165,7 +158,7 @@ function zTreeOnDblClick(event, treeId, treeNode) {
 		      	dataType: 'JSON',
 		        //返回的JSON数据的名字
 		        dataName: 'treeNodes',
-		        url:'${request.getContextPath()}/categories/queryDataTreeByPid'
+		        url:'${request.getContextPath()}/users/queryDataTreeByPid'
 		       }
 		};		
 		function beforeClick(treeId, treeNode) {
@@ -187,9 +180,6 @@ function zTreeOnDblClick(event, treeId, treeNode) {
     		$('#selectTextVal').val(id);
 		}
 		$(document).ready(function(){
-			$.fn.zTree.init($("#treeDemo"), setting);
-		});
+			//$.fn.zTree.init($("#treeDemo"), setting);
+		});*/
 </script>
-</div>
-</body>
-</html>

@@ -69,7 +69,7 @@ $( "#openwindow" ).click(function(){
 	 	 modal: true,
 	 	 width:800,
 		 open: function(event, ui) {
- 		 	  $(this).load('${request.getContextPath()}/users/create');
+ 		 	  $(this).load('${request.getContextPath()}/users/create2');
 	 	 },	   
 	    close: function (event, ui) {  
 	       grid.trigger("reloadGrid");
@@ -129,7 +129,7 @@ $( "#delete" ).click(function(){
 	 $("#layout button,.button,#sampleButton").button();
 }); 
 </script>
-	<div id="divInDialog" style="display:none">
+	<div id="divInDialog" style="width:100%!important;display:none;">
 	</div>
 </div>
 </body>

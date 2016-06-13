@@ -39,7 +39,7 @@ public class HomeController{
     @RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView jqueryui() {
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("classpath:com/cloudcode/menu/ftl/jqueryui.ftl");
+		modelAndView.setViewName("classpath:com/cloudcode/menu/ftl/index.ftl");
 		//modelAndView.addObject("result", "cloudcode");
 		List<Menu> menus = menuDao.queryDataTreeByPid("root");
 		modelAndView.addObject("menus", menus);

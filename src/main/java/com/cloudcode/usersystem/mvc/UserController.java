@@ -76,6 +76,14 @@ public class UserController  extends CrudController<User>{
 		modelAndView.addObject("entityAction", "create");
 		return modelAndView;
 	}
+	@RequestMapping(value = "create2")
+	public ModelAndView create2() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("classpath:com/cloudcode/usersystem/ftl/user/detail2.ftl");
+		modelAndView.addObject("result", "cloudcode");
+		modelAndView.addObject("entityAction", "create");
+		return modelAndView;
+	}
 
 	@RequestMapping(value = "/{id}/update")
 	public ModelAndView update(@PathVariable("id") String id) {
