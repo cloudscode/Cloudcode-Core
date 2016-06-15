@@ -44,6 +44,9 @@ h1.site-title a, h1.site-title {
                      <li>
                         <a href="${request.getContextPath()}/lottery/toList" target="view_window">基础库信息</a>
                     </li>
+                     <li>
+                        <a href="${request.getContextPath()}/lmenu/toIndex" target="blank">彩票系统</a>
+                    </li>
                     <!--<li>
                         <a href="./map.html">Map</a>
                     </li>
