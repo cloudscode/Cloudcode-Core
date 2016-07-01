@@ -27,7 +27,9 @@ public class UsernamePasswordCaptchaAuthenticationFilter extends
         if (!isCorrect){
             throw new BadCaptchaException(this.messages.getMessage("AbstractUserDetailsAuthenticationProvider.badCaptcha", "Bad captcha"));
         }
-
+        request.getSession().setAttribute("username", request.getParameter("username"));
+		//request.getSession().setAttribute("password", request.getParameter("password"));
+		request.getSession().setAttribute("sessionId", captchaId);
         return super.attemptAuthentication(request, response);  
     }
 
