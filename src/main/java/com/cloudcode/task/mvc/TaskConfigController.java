@@ -3,6 +3,7 @@ package com.cloudcode.task.mvc;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,22 +18,34 @@ import com.cloudcode.framework.service.ServiceResult;
 import com.cloudcode.framework.utils.BeanUpdater;
 import com.cloudcode.framework.utils.PageRange;
 import com.cloudcode.framework.utils.PaginationSupport;
+import com.cloudcode.framework.utils.UUID;
 import com.cloudcode.task.dao.TaskConfigDao;
 import com.cloudcode.task.model.TaskConfig;
 
 @Controller
 @RequestMapping("/taskconfig")
+@Component
 public class TaskConfigController extends CrudController<TaskConfig> {
 	@Autowired
 	private TaskConfigDao taskConfigDao;
 	
-	@RequestMapping(value = "/createTaskConfig", method = RequestMethod.POST)
+	@RequestMapping(value = "/createTaskConfig", method ={ RequestMethod.POST,
+			RequestMethod.GET} )
 	public @ResponseBody
 	void createTaskConfig(@ModelAttribute TaskConfig task, HttpServletRequest request) {
 		String name = request.getParameter("name");
 		taskConfigDao.addTaskConfig(task);
+		//taskConfigDao.createTaskConfig(task);
 	}
-
+	@RequestMapping(value = "/createTaskConfig2", method ={ RequestMethod.POST,
+			RequestMethod.GET} )
+	public @ResponseBody
+	void createTaskConfig2(@ModelAttribute TaskConfig task, HttpServletRequest request) {
+		task = new TaskConfig();
+		task.setId(UUID.generateUUID());
+		task.setName("测试");
+		taskConfigDao.createTaskConfig(task);
+	}
 	@RequestMapping(value = "/{id}/updateTaskConfig", method = { RequestMethod.POST,
 			RequestMethod.GET })
 	public @ResponseBody
