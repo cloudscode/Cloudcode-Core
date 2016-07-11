@@ -20,11 +20,11 @@ public class UserPrincipal extends User{
     private String userRole;
     private String language;
     private String loginTime;
-    
+    private com.cloudcode.usersystem.model.User user;
     public UserPrincipal(String loginName, String userName, String userId, String userRole, String language, String password, boolean enabled,
             boolean accountNonExpired, boolean credentialsNonExpired,
             boolean accountNonLocked,
-            Collection<? extends GrantedAuthority> authorities) {
+            Collection<? extends GrantedAuthority> authorities,com.cloudcode.usersystem.model.User user) {
         
         super(loginName, password, enabled, accountNonExpired, credentialsNonExpired,
                 accountNonLocked, authorities);
@@ -35,6 +35,7 @@ public class UserPrincipal extends User{
         this.userRole = userRole;
         this.language = language;
         this.loginTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        this.user = user;
 
     }
     
@@ -85,5 +86,13 @@ public class UserPrincipal extends User{
     public void setLanguage(String language) {
         this.language = language;
     }
+
+	public com.cloudcode.usersystem.model.User getUser() {
+		return user;
+	}
+
+	public void setUser(com.cloudcode.usersystem.model.User user) {
+		this.user = user;
+	}
 
 }
