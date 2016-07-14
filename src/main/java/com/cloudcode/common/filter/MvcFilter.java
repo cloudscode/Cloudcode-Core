@@ -37,7 +37,7 @@ public class MvcFilter extends OncePerRequestFilter {
 			HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		String url = request.getRequestURI();
-		System.out.println("*************************************"+url+"--"+request.getSession().getAttribute("username"));
+		//System.out.println("*************************************"+url+"--"+request.getSession().getAttribute("username"));
 		if(url.indexOf("/login.html") >-1 || url.indexOf("/captcha")>-1){
 			
 		}else{

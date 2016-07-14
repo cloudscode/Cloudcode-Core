@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,5 +41,9 @@ public class TaskConfigDao extends BaseModelObjectDao<TaskConfig> {
 		}
 		taskConfigDao.createObject(entity);
 		//int q=1/0;
+	}
+	//@Cacheable(value="user") 
+	public TaskConfig loadObject(String id) {System.out.println("*******"+id);
+		return taskConfigDao.loadObject(id);
 	}
 }

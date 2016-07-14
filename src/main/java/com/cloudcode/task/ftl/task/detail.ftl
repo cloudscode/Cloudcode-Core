@@ -12,7 +12,7 @@
   <div class="form-staff">
     <label for="inputEmail3" class="col-sm-2 control-label">名称</label>
 	    <div class="col-sm-4">
-	      <input type="name" name="name" class="form-control" id="text" placeholder="名称">
+	      <input type="name" name="name" class="form-control" id="name" placeholder="名称">
 	    </div>
      <label for="inputPassword3" class="col-sm-2 control-label">父菜单</label>
      <div class="col-sm-4">
@@ -121,11 +121,10 @@ $(function () {
 	    }
 	});
 	if('${entityAction}' =='update'){
-		<#if menu?exists>  
-		$('#text').val('${menu.text!''}');
-		$('#action').val('${menu.action!''}');
-		$('#selectTextVal').val('${menu.node!''}');
-		$('#oid').val('${menu.id!''}');
+		<#if task?exists>  
+		$('#name').val('${task.name!''}');
+		
+		$('#oid').val('${task.id!''}');
 		</#if>
 	}
 });

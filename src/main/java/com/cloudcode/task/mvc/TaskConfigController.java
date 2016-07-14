@@ -1,5 +1,6 @@
 package com.cloudcode.task.mvc;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cloudcode.common.cache.Cache;
+import com.cloudcode.common.cache.CacheManager;
 import com.cloudcode.framework.controller.CrudController;
 import com.cloudcode.framework.rest.ReturnResult;
 import com.cloudcode.framework.service.ServiceResult;
@@ -28,6 +31,8 @@ import com.cloudcode.task.model.TaskConfig;
 public class TaskConfigController extends CrudController<TaskConfig> {
 	@Autowired
 	private TaskConfigDao taskConfigDao;
+	@Resource(name="global.cacheManager")
+	CacheManager cacheManager;
 	
 	@RequestMapping(value = "/createTaskConfig", method ={ RequestMethod.POST,
 			RequestMethod.GET} )
@@ -41,10 +46,17 @@ public class TaskConfigController extends CrudController<TaskConfig> {
 			RequestMethod.GET} )
 	public @ResponseBody
 	void createTaskConfig2(@ModelAttribute TaskConfig task, HttpServletRequest request) {
-		task = new TaskConfig();
-		task.setId(UUID.generateUUID());
-		task.setName("测试");
-		taskConfigDao.createTaskConfig(task);
+//		task = new TaskConfig();
+//		task.setId(UUID.generateUUID());
+//		task.setName("测试");
+//		taskConfigDao.createTaskConfig(task);
+		Cache<Object, Object> cahce= cacheManager.getCache("test");
+		if(null == cahce || null == cahce.get("test")){
+			cahce.put("test", "test1");
+			System.out.println("cahce put");
+		}else{
+			System.out.println("cahce get"+cahce.get("test"));
+		}
 	}
 	@RequestMapping(value = "/{id}/updateTaskConfig", method = { RequestMethod.POST,
 			RequestMethod.GET })
@@ -78,7 +90,7 @@ public class TaskConfigController extends CrudController<TaskConfig> {
 		modelAndView.addObject("entityAction", "create");
 		return modelAndView;
 	}
-
+	
 	@RequestMapping(value = "/{id}/update")
 	public ModelAndView update(@PathVariable("id") String id) {
 		TaskConfig task = taskConfigDao.loadObject(id);
