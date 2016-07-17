@@ -21,7 +21,6 @@ import com.cloudcode.framework.service.ServiceResult;
 import com.cloudcode.framework.utils.BeanUpdater;
 import com.cloudcode.framework.utils.PageRange;
 import com.cloudcode.framework.utils.PaginationSupport;
-import com.cloudcode.framework.utils.UUID;
 import com.cloudcode.task.dao.TaskConfigDao;
 import com.cloudcode.task.model.TaskConfig;
 
@@ -86,8 +85,8 @@ public class TaskConfigController extends CrudController<TaskConfig> {
 	public ModelAndView create() {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("classpath:com/cloudcode/task/ftl/task/detail.ftl");
-		modelAndView.addObject("result", "cloudcode");
 		modelAndView.addObject("entityAction", "create");
+		modelAndView.addObject("entity", new TaskConfig());
 		return modelAndView;
 	}
 	
@@ -96,8 +95,7 @@ public class TaskConfigController extends CrudController<TaskConfig> {
 		TaskConfig task = taskConfigDao.loadObject(id);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("classpath:com/cloudcode/task/ftl/task/detail.ftl");
-		modelAndView.addObject("task", task);
-		modelAndView.addObject("result", "cloudcode");
+		modelAndView.addObject("entity", task);
 		modelAndView.addObject("entityAction", "update");
 		return modelAndView;
 	}

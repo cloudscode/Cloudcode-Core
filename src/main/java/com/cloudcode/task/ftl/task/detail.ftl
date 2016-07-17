@@ -7,49 +7,68 @@
 
 <body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true"> 
 <div id="dialogDiv">
-<div class="container" id="layout">
+<div class="container" id="layout" style="width: 100%;">
 <form role="form" class="form-horizontal" id="myFormId" action="${request.getContextPath()}/taskconfig/createMenu" method="post">
-  <div class="form-staff">
+  
+  <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">名称</label>
 	    <div class="col-sm-4">
-	      <input type="name" name="name" class="form-control" id="name" placeholder="名称">
+	      <input type="name" name="name" class="form-control" id="name" placeholder="名称" value="${entity.name!''}">
 	    </div>
-     <label for="inputPassword3" class="col-sm-2 control-label">父菜单</label>
-     <div class="col-sm-4">
-    <div class="input-group">
-      <input type="text" class="form-control" name="selectText" id="selectText">
-       <input type="hidden" name="node" id="selectTextVal">
-      <span class="input-group-btn">
-        <button class="btn btn-default" type="button" name="selectBtn" id="selectBtn">选择</button>
-      </span>
-      <div id="menuContent"  style="position:absolute;left: 10px;top: 29px;z-index: 100;background: #ebebeb;display:none"  class="zTreeDemoBackground left">
-        <ul id="treeDemo" class="ztree" ></ul> 
-      </div>
-    </div><!-- /input-staff -->
-       <input type="hidden" value="" id="oid" name="id" >
-	</div>
+     <label for="inputPassword3" class="col-sm-2 control-label">是否有效</label>
+	     <div class="col-sm-4">
+				      <input id="valid" name="valid" type="checkbox">
+	     </div>
     </div>
-   <div class="form-staff">
-    <label for="inputEmail3" class="col-sm-2 control-label">简称</label>
-	    <div class="col-sm-4">
-	      <input type="text" name="shortName" class="form-control" id="shortName" placeholder="简称">
+    
+   <div class="form-group">
+    	<label for="inputEmail3" class="col-sm-2 control-label">调用类型</label>
+	    <div class="col-sm-10">  
+	       	<select id="execType" name="execType"  class="form-control">
+			  <option value="class">接口类</option>
+			  <option value="sql">sql</option>
+			</select>
 	    </div>
-     <label for="inputEmail3" class="col-sm-2 control-label">编码</label>
-	    <div class="col-sm-4">
-	      <input type="text" name="code" class="form-control" id="code" placeholder="编码">
-	    </div>
+    
   </div>
-  <div class="form-staff">
-    <label for="inputEmail3" class="col-sm-2 control-label">描述</label>
+  
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">调用公式</label>
 	    <div class="col-sm-10">
-	      <input type="text" name="description" class="form-control" id="description" placeholder="描述">
+	      <input type="text" id="formula" name="formula" class="form-control" id="description" placeholder="描述" value="${entity.formula!''}">
 	    </div>
   </div>
+  
+    <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">注册时间(当天)</label>
+	    <div class="col-sm-10">
+	    		 <input class="col-width4 stepper " type="text" id="hour" name="hourRegister" value="${entity.hourRegister!''}" style="width:70px;" />时
+				<input class="col-width4 stepper " type="text" id="minute" name="minuteRegister" value="${entity.minuteRegister!''}" style="width:70px" />分
+				<input class="col-width4 stepper " type="text" id="second"  name="secondRegister" value="${entity.secondRegister!''}" style="width:70px;" />秒
+	    </div>
+  </div>
+  
+    <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">隔多久调用</label>
+	    <div class="col-sm-10">
+	     		<input class="col-width4 stepper " type="text" id="day" name="day" value="${entity.day!''}" style="width:70px;"/>天
+				<input class="col-width4 stepper " type="text" id="hour" name="hour" value="${entity.hour!''}" style="width:70px;" />时
+				<input class="col-width4 stepper " type="text" id="minute" name="minute" value="${entity.minute!''}" style="width:70px" />分
+				<input class="col-width4 stepper " type="text" id="second"  name="second" value="${entity.second!''}" style="width:70px;" />秒
+	    </div>
+  </div>
+  
+  
+  
   <div class="form-staff">
     <div class="col-sm-offset-2 col-sm-10">
        <button type="button" id="updateButton" class="btn btn-default">save</button>
     </div>
   </div>
+  
+  
+  <input type="hidden" value="" id="id" name="id" >
+  
 </form>
 
 </div>
@@ -96,9 +115,6 @@ $(function () {
 		});
    }else{
 	    $('#updateButton').click( function() {
-			    if($('#selectTextVal').val() ==''){
-			     	$('#selectTextVal').val('root');
-			     }
 			    $.ajax({
 			        url: '${request.getContextPath()}/taskconfig/createTaskConfig',
 			        type: 'post',
@@ -121,64 +137,23 @@ $(function () {
 	    }
 	});
 	if('${entityAction}' =='update'){
-		<#if task?exists>  
-		$('#name').val('${task.name!''}');
+		<#if entity?exists>  
+		$('#name').val('${entity.name!''}');
 		
-		$('#oid').val('${task.id!''}');
+		$('#id').val('${entity.id!''}');
+		
+		var valid = '${entity.valid}';
+		if(valid=='1'){
+			$('#valid').prop('checked',true);
+		}
+		var execType = '${entity.execType}';
+		$('#execType').setValue(execType);
 		</#if>
 	}
 });
-function zTreeOnDblClick(event, treeId, treeNode) {
-     $('#selectText').val(treeNode.name); 
-     $('#selectTextVal').val(treeNode.tId);
-      $("#treeDemo").css('display','none');
-};
-	var setting = {
-			check: {
-				enable: true,
-				chkboxType: {"Y":"", "N":""}
-			},
-			view: {
-				dblClickExpand: false
-			},
-			data: {
-				simpleData: {
-					enable: true
-				}
-			},
-			callback: {
-				beforeClick: beforeClick,
-				onCheck: onCheck
-			},
-			async: {
-		        enable: true,
-		        async : true, 
-		      	dataType: 'JSON',
-		        //返回的JSON数据的名字
-		        dataName: 'treeNodes',
-		        url:'${request.getContextPath()}/taskconfig/queryDataTreeByPid'
-		       }
-		};		
-		function beforeClick(treeId, treeNode) {
-			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-			zTree.checkNode(treeNode, !treeNode.checked, null, true);
-			return false;
-		}
-		
-		function onCheck(e, treeId, treeNode) {
-			var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
-			nodes = zTree.getCheckedNodes(true),
-			v = "",id="";
-			for (var i=0, l=nodes.length; i<l; i++) {
-				v += nodes[i].name;// + ",";
-				id += nodes[i].id;// + ",";
-			}
-			if (v.length > 0 ) v = v.substring(0, v.length-1);			
-			$('#selectText').val(v); 
-    		$('#selectTextVal').val(id);
-		}
+
 		$(document).ready(function(){
-			$.fn.zTree.init($("#treeDemo"), setting);
+			
 		});
 </script>
 </div>
