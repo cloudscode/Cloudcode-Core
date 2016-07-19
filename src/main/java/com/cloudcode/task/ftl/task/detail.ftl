@@ -99,14 +99,13 @@ var hm = $("body").wHumanMsg();
 $(function () {
    if('${entityAction}' =='update'){
 	   $('#updateButton').click( function() {
-				     if($('#selectTextVal').val() ==''){
-				     	$('#selectTextVal').val('root');
-				     }
-	      		   $.ajax({
+	     var data =$('form#myFormId').serializeObject();
+   		data.valid = $('#valid').prop('checked')?1:0;debugger;
+					$.ajax({
 				        url: '${request.getContextPath()}/taskconfig/'+$("#oid").val()+'/updateMenu',
 				        type: 'post',
 				        dataType: 'json',
-				        data:$('form#myFormId').serialize(),
+				        data:data,
 				        success: function(data) {
 				       		 $('body').wHumanMsg('theme', 'black').wHumanMsg('msg', '数据保存成功！', {fadeIn: 300, fadeOut: 300});
 				        	 $('.ui-dialog-titlebar-close').trigger('click');
@@ -115,11 +114,13 @@ $(function () {
 		});
    }else{
 	    $('#updateButton').click( function() {
+	    var data =$('form#myFormId').serializeObject();
+   		data.valid = $('#valid').prop('checked')?1:0;debugger;
 			    $.ajax({
 			        url: '${request.getContextPath()}/taskconfig/createTaskConfig',
 			        type: 'post',
 			        dataType: 'json',
-			        data: $('form#myFormId').serialize(),
+			        data: data,
 			        success: function(data) {
 			       		 $('body').wHumanMsg('theme', 'black').wHumanMsg('msg', '数据保存成功！', {fadeIn: 300, fadeOut: 300});
 			       		 $('.ui-dialog-titlebar-close').trigger('click');
