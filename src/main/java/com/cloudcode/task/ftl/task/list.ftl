@@ -11,7 +11,7 @@
 			<section id="button">
 			        <button id="openwindow" class="ui-button-success">添加</button>
 			        <button id="edit" class="ui-button-primary">编辑</button>
-			        <button id="view" class="ui-button-warning">查看</button>
+			        <#--<button id="view" class="ui-button-warning">查看</button>-->
 			        <button id="delete" class="ui-button-danger">删除</button>
 			        <button id="refresh" class="ui-button-info">刷新</button>
 			</section>
