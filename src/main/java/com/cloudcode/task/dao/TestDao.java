@@ -5,7 +5,7 @@ import java.util.HashMap;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TestManager {
+public class TestDao {
 	public void test(HashMap<String, Object> map) throws Exception {
 		System.out.println("5秒执行一次");
 	}

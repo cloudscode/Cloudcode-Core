@@ -37,9 +37,23 @@ public class TaskConfigDao extends BaseModelObjectDao<TaskConfig> {
 			entity.setId(UUID.generateUUID());
 		}
 		taskConfigDao.createObject(entity);
-		addTask(entity);
+		addTaskInfo(entity);
 	}
-	
+	public void updateTaskConfig(TaskConfig entity) {
+		taskConfigDao.updateObject(entity);
+		removeTaskInfo(entity.getId());
+		addTaskInfo(entity);
+	}
+
+	public void delete(String id) {
+		if (id != null && !"".equals(id)) {
+			String[] idarr =	id.split(",");
+			taskConfigDao.deleteObjects(idarr);
+			for (int i = 0; i < idarr.length; i++) {
+				removeTaskInfo(idarr[i]);
+			}
+		}
+	}
 	public PaginationSupport<TaskConfig> queryPagingData(TaskConfig hhXtCd, PageRange pageRange) {
 		HQLParamList hqlParamList = new HQLParamList();
 		List<Object> list=null;
@@ -57,7 +71,7 @@ public class TaskConfigDao extends BaseModelObjectDao<TaskConfig> {
 	public TaskConfig loadObject(String id) {System.out.println("*******"+id);
 		return taskConfigDao.loadObject(id);
 	}
-	public void addTask(TaskConfig taskConfig) {
+	public void addTaskInfo(TaskConfig taskConfig) {
 		if (taskConfig.getValid() == 1) {
 			long time = taskConfig.getSecond() * 1000 + taskConfig.getMinute()
 					* 60 * 1000 + taskConfig.getHour() * 60 * 60 * 1000;
@@ -78,7 +92,7 @@ public class TaskConfigDao extends BaseModelObjectDao<TaskConfig> {
 		}
 	}
 
-	private void removeTask(String id) {
+	private void removeTaskInfo(String id) {
 		Object object = getCache().get(id);
 		if (object != null) {
 			Timer timer = (Timer) object;
