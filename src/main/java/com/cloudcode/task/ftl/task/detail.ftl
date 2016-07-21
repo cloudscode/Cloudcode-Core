@@ -99,10 +99,10 @@ var hm = $("body").wHumanMsg();
 $(function () {
    if('${entityAction}' =='update'){
 	   $('#updateButton').click( function() {
-	     var data =$('form#myFormId').serializeObject();
-   		data.valid = $('#valid').prop('checked')?1:0;debugger;
+	    var data =$('form#myFormId').serializeObject();
+   		data.valid = $('#valid').prop('checked')?1:0;
 					$.ajax({
-				        url: '${request.getContextPath()}/taskconfig/'+$("#oid").val()+'/updateMenu',
+				        url: '${request.getContextPath()}/taskconfig/'+$("#id").val()+'/updateTaskConfig',
 				        type: 'post',
 				        dataType: 'json',
 				        data:data,
@@ -115,7 +115,7 @@ $(function () {
    }else{
 	    $('#updateButton').click( function() {
 	    var data =$('form#myFormId').serializeObject();
-   		data.valid = $('#valid').prop('checked')?1:0;debugger;
+   		data.valid = $('#valid').prop('checked')?1:0;
 			    $.ajax({
 			        url: '${request.getContextPath()}/taskconfig/createTaskConfig',
 			        type: 'post',

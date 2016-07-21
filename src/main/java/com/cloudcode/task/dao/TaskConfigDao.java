@@ -45,7 +45,7 @@ public class TaskConfigDao extends BaseModelObjectDao<TaskConfig> {
 		addTaskInfo(entity);
 	}
 
-	public void delete(String id) {
+	public void deleteTaskConfig(String id) {
 		if (id != null && !"".equals(id)) {
 			String[] idarr =	id.split(",");
 			taskConfigDao.deleteObjects(idarr);

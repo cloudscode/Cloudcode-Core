@@ -39,18 +39,22 @@ $(function(){
             rowNum: 10,
             prmNames : {PageRange:{page:"page",rows:"rows"}  },
             rowList: [10,20,30],
-            colNames:['Id', '名称','编码','简称'],
+            colNames:['Id', '名称','是否有效'],
             colModel:[
                 {name:'id',index:'id', width:60, hidden:true},
                 {name:'name',index:'name', width:100},
-                {name:'code',index:'node', width:90},
-                {name:'shortName',index:'shortName', width:90}
+                {name:'valid',index:'valid', width:90,formatter:function(cellvalue, options, rowObject){
+                	if(cellvalue==1){
+                		return '有效';
+                	}
+                	return '无效';
+                }}
             ],
             autowidth: true,
             height: "auto",            
             pager: "#jqGridPager01",
             viewrecords: true,
-            caption: "集团信息",
+            caption: "计划信息",
             hidegrid:false,
             multiselect: true,
             altRows: true

@@ -39,16 +39,11 @@ public class TaskConfigController extends CrudController<TaskConfig> {
 	void createTaskConfig(@ModelAttribute TaskConfig task, HttpServletRequest request) {
 		String name = request.getParameter("name");
 		taskConfigDao.addTaskConfig(task);
-		//taskConfigDao.createTaskConfig(task);
 	}
 	@RequestMapping(value = "/createTaskConfig2", method ={ RequestMethod.POST,
 			RequestMethod.GET} )
 	public @ResponseBody
 	void createTaskConfig2(@ModelAttribute TaskConfig task, HttpServletRequest request) {
-//		task = new TaskConfig();
-//		task.setId(UUID.generateUUID());
-//		task.setName("测试");
-//		taskConfigDao.createTaskConfig(task);
 		Cache<Object, Object> cahce= cacheManager.getCache("test");
 		if(null == cahce || null == cahce.get("test")){
 			cahce.put("test", "test1");
@@ -65,9 +60,7 @@ public class TaskConfigController extends CrudController<TaskConfig> {
 		TaskConfig task = taskConfigDao.loadObject(id);
 		if (task != null) {
 			BeanUpdater.copyProperties(updateObject, task);
-			// org.springframework.beans.BeanUtils.copyProperties(updateObject,
-			// task);
-			taskConfigDao.updateObject(task);
+			taskConfigDao.updateTaskConfig(task);
 			return new ServiceResult(ReturnResult.SUCCESS);
 		}
 		return null;
@@ -104,10 +97,7 @@ public class TaskConfigController extends CrudController<TaskConfig> {
 	public @ResponseBody
 	Object deleteAll(HttpServletRequest request) {
 		String ids = request.getParameter("ids");
-		String[] arrayId = ids.split(",");
-		for (String id : arrayId) {
-			taskConfigDao.deleteObject(id);
-		}
+		taskConfigDao.deleteTaskConfig(ids);
 		return new ServiceResult(ReturnResult.SUCCESS);
 	}
 	
