@@ -78,10 +78,13 @@ public class GroupController extends CrudController<Group> {
 	@RequestMapping(value = "/{id}/update")
 	public ModelAndView update(@PathVariable("id") String id) {
 		Group group = groupDao.loadObject(id);
+		if(null != group.getIdCode() && !"root".equals(group.getIdCode())){
+			Group group1 = groupDao.loadObject(group.getIdCode());
+			group.setIdCodeName(group1.getName());
+		}
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("classpath:com/cloudcode/organization/ftl/group/detail.ftl");
-		modelAndView.addObject("group", group);
-		modelAndView.addObject("result", "cloudcode");
+		modelAndView.addObject("entity", group);
 		modelAndView.addObject("entityAction", "update");
 		return modelAndView;
 	}
@@ -122,7 +125,7 @@ public class GroupController extends CrudController<Group> {
 			Map<String, Object> maps = new HashMap<String, Object>();
 			maps.put("id", menu.getId());
 			maps.put("name", menu.getName());
-			maps.put("pId", menu.getNode());
+			maps.put("pId", menu.getIdCode());
 			maps.put("isParent", menu.getNode()==null?false:true);
 			listMap.add(maps);
 		}
@@ -130,21 +133,22 @@ public class GroupController extends CrudController<Group> {
 	}
 	@RequestMapping(value = "queryTree", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody Object queryTree(Group group, PageRange pageRange, HttpServletRequest request) {
-		String nodeid =request.getParameter("nodeid");
+		String idCode =request.getParameter("nodeid");
 		String n_level =request.getParameter("n_level");
 		List<Group> lists = null;
-		if(StringUtils.isEmpty(nodeid)){
+		if(StringUtils.isEmpty(idCode)){
 			lists = groupDao.queryDataTreeByPid("root");
 		}else{
-			lists = groupDao.queryDataTreeByPid(nodeid);
+			lists = groupDao.queryDataTreeByPid(idCode);
 		}
 		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
 		for (Group obj : lists) {
 			Map<String, Object> maps = new HashMap<String, Object>();
 			maps.put("id", obj.getId());
 			maps.put("name", obj.getName());
-			//maps.put("action", obj.getAction());
-			maps.put("node", obj.getNode());
+			maps.put("node", obj.getIdCode());
+			maps.put("code", obj.getCode());
+			maps.put("shortName", obj.getShortName());
 			maps.put("expanded", false);
 			maps.put("isLeaf", false);
 			maps.put("parent", obj.getNode());
@@ -152,5 +156,13 @@ public class GroupController extends CrudController<Group> {
 			listMap.add(maps);
 		}
 		return listMap;
+	}
+	@RequestMapping(value = "tree")
+	public ModelAndView tree() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("classpath:com/cloudcode/organization/ftl/group/tree.ftl");
+		modelAndView.addObject("result", "cloudcode");
+		modelAndView.addObject("entityAction", "create");
+		return modelAndView;
 	}
 }

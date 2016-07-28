@@ -2,6 +2,8 @@ package com.cloudcode.organization.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.transaction.Transactional;
 
 import com.cloudcode.framework.model.BaseTreeNodeModelObject;
 import com.cloudcode.organization.ProjectConfig;
@@ -44,5 +46,13 @@ public class Group extends BaseTreeNodeModelObject<Group> {
 	public void setCode(String code) {
 		this.code = code;
 	}
-
+	private String idCodeName;
+	@Transient
+	public String getIdCodeName() {
+		return idCodeName;
+	}
+	public void setIdCodeName(String idCodeName) {
+		this.idCodeName = idCodeName;
+	}
+	
 }

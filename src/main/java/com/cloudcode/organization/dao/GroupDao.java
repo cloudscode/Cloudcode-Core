@@ -24,9 +24,6 @@ public class GroupDao extends BaseModelObjectDao<Group> {
 	private TreeNodeModelObjectDao<Group> groupDao;
 	
 	public void addGroup(Group entity) {
-		if(null != entity.getId() && "".equals(entity.getId())){
-			entity.setId(UUID.generateUUID());
-		}
 		groupDao.createObject(entity);
 	}
 	
@@ -35,9 +32,9 @@ public class GroupDao extends BaseModelObjectDao<Group> {
 		List<Object> list=null;
 		return this.queryPaginationSupport(Group.class, hqlParamList, pageRange);
 	}
-	public  List<Group> queryDataTreeByPid(String node) {
+	public  List<Group> queryDataTreeByPid(String idCode) {
 		HQLObjectParamList hqlParamList = new HQLObjectParamList()
-				.addCondition(Restrictions.eq("node", node));
+				.addCondition(Restrictions.eq("idCode", idCode));
 				
 		List<Group> groups = groupDao.queryTreeList(Group.class, hqlParamList);
 		return groups;

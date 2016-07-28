@@ -76,12 +76,8 @@ $( "#openwindow" ).click(function(){
 var divInDialogs =null;
 $( "#edit" ).click(function(){
 	var id; 
-	id = grid.jqGrid('getGridParam','selarrrow');
+	id = grid.jqGrid('getGridParam','selrow');
 	  if(id.toString() != null && id.toString() != ""){
-		  	if(id.length >1){
-			  	ajaxframework.createDialog("操作提示！","请选择一条要编辑的数据！",{});
-			  	return ;
-		  	}
 			divInDialogs =$( "#divInDialog" ).dialog({
 			 	 modal: true,
 			 	 width:800,
@@ -98,7 +94,7 @@ $( "#edit" ).click(function(){
 }); 
 $( "#delete" ).click(function(){
 		var id;
-	     id = $("#jqGrid01").jqGrid('getGridParam','selarrrow');
+	      id = grid.jqGrid('getGridParam','selrow');
 	     if(id.toString() != null && id.toString() != ""){
 		    $.ajax({
 			        url: '${request.getContextPath()}/groups/deleteAll',
