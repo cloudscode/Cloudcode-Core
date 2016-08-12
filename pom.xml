@@ -4,7 +4,7 @@
 
 	<groupId>com.cloudcode.core</groupId>
 	<artifactId>Cloudcode-Core</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<packaging>jar</packaging>
 
 	<name>Cloudcode-Core</name>
@@ -30,7 +30,7 @@
 		<dependency>
 			<groupId>com.cloudcode</groupId>
 			<artifactId>Cloudcode-Framework</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -55,4 +55,16 @@
 			<version>1.0</version>
 		</dependency>
 	</dependencies>
+	<distributionManagement>
+		<!-- <snapshotRepository>
+			<id>lawyee-maven</id>
+			<name>Lawyee Maven Repository</name>
+			<url>http://127.0.0.1:8081/nexus/content/repositories/snapshots</url>
+		</snapshotRepository> -->
+		<repository>
+			<id>lawyee-maven</id>
+			<name>Lawyee Maven Repository</name>
+			<url>http://127.0.0.1:8081/nexus/content/repositories/releases/</url>
+		</repository>
+	</distributionManagement>
 </project>
