@@ -126,7 +126,9 @@ public class GroupController extends CrudController<Group> {
 			maps.put("id", menu.getId());
 			maps.put("name", menu.getName());
 			maps.put("pId", menu.getIdCode());
-			maps.put("isParent", menu.getNode()==null?false:true);
+			maps.put("isParent", menu.getLeaf()!=0?false:true);
+			maps.put("isLeaf", menu.getLeaf()==0?true:false);
+			System.out.println(menu.getIdCode()=="root"?false:true);
 			listMap.add(maps);
 		}
 		return JSONArray.fromObject(listMap);

@@ -6,7 +6,7 @@
 </head>
 
 <body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true"> 
-<div id="dialogDiv">
+<div id="dialogDiv" xtype="hh_content">
 <div class="container" id="layout" style="width: 100%;">
 <form role="form" class="form-horizontal" id="myFormId" action="${request.getContextPath()}/groups/createGroup" method="post">
   <div class="form-group">
@@ -53,21 +53,26 @@
 	</div>
 </div>
 <#include "classpath:com/cloudcode/framework/common/ftl/vendor.ftl"/>
-<script type="text/javascript">
-$('#selectText').on("focus", function(){
-   showGroup(); 
-});
-$('#selectBtn').on('click',function(){
-  //showGroup2();  
-  var    options={};
-  options.title='集团选择';
-  options.url='${request.getContextPath()}/groups/tree';
 
-  divInDialogs=$( "#divInDialog2" ).iframeDialog(options);
-    divInDialogs.idCode=$("#idCode");
-		divInDialogs.idCodeName=$("#idCodeName");
-		window.divInDialogs=divInDialogs;
-});
+<script type="text/javascript">
+	var width = 1000;
+	var height = 600;
+	$('#selectBtn').on('click',function(){
+	
+	    var    options={};
+	  	options.title='集团选择';
+	  	options.url='${request.getContextPath()}/groups/tree';
+		options.width=500;
+		options.height=600;
+		options.params={
+				
+				callback : function(data) {
+				    $("#idCode").val(data.id);
+					 $("#idCodeName").val(data.name);
+				}
+			};
+			Dialog.open(options);
+	});
 var divInDialogs ='';
 function showGroup2() {
  divInDialogs =$( "#divInDialog2" ).dialog({

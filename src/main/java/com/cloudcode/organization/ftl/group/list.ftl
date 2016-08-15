@@ -62,7 +62,14 @@ $(function(){
     }
 
 $( "#openwindow" ).click(function(){
-	$( "#divInDialog" ).dialog({
+	var    options={};
+    options.title='集团选择';
+    options.url='${request.getContextPath()}/groups/create';
+	options.width=1000;
+	options.height=800;
+	Dialog.open(options);
+	
+	<#--$( "#divInDialog" ).dialog({
 	 	 modal: true,
 	 	 width:800,
 		 open: function(event, ui) {
@@ -71,7 +78,7 @@ $( "#openwindow" ).click(function(){
 	    close: function (event, ui) {  
 	       grid.trigger("reloadGrid");
 	    }  
-	});
+	});-->
 });
 var divInDialogs =null;
 $( "#edit" ).click(function(){
@@ -105,9 +112,9 @@ $( "#delete" ).click(function(){
  						grid.trigger("reloadGrid");
 			                 }
 			    });
-			    }else{
-			    	ajaxframework.createDialog("操作提示！","请选择要删除的数据！",{});
-			    }
+	    }else{
+	    	ajaxframework.createDialog("操作提示！","请选择要删除的数据！",{});
+	    }
 	});
 	$( "#view" ).click(function(){
 		$('body').wHumanMsg('theme', 'red').wHumanMsg('msg', 'Testing red');
