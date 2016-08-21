@@ -133,9 +133,9 @@ public class GroupController extends CrudController<Group> {
 		}
 		return JSONArray.fromObject(listMap);
 	}
-	@RequestMapping(value = "queryTree", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "queryTree", method = {RequestMethod.POST, RequestMethod.GET }, produces = "application/json")
 	public @ResponseBody Object queryTree(Group group, PageRange pageRange, HttpServletRequest request) {
-		String idCode =request.getParameter("nodeid");
+		String idCode =request.getParameter("node");
 		String n_level =request.getParameter("n_level");
 		List<Group> lists = null;
 		if(StringUtils.isEmpty(idCode)){
@@ -148,12 +148,14 @@ public class GroupController extends CrudController<Group> {
 			Map<String, Object> maps = new HashMap<String, Object>();
 			maps.put("id", obj.getId());
 			maps.put("name", obj.getName());
+			maps.put("text", obj.getName());
 			maps.put("node", obj.getIdCode());
 			maps.put("code", obj.getCode());
 			maps.put("shortName", obj.getShortName());
 			maps.put("expanded", false);
 			maps.put("isLeaf", false);
 			maps.put("parent", obj.getNode());
+			maps.put("leaf", true);
 			maps.put("level", n_level==null?0:(Integer.parseInt(n_level)+1));
 			listMap.add(maps);
 		}
