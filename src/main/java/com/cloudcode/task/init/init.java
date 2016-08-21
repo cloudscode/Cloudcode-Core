@@ -12,7 +12,7 @@ import com.cloudcode.framework.utils.Initializer;
 import com.cloudcode.task.dao.TaskConfigDao;
 import com.cloudcode.task.model.TaskConfig;
 
-@Service
+@Service("inittask")
 public class init implements Initializer {
 
 	private static final Logger log = Logger.getLogger(init.class);

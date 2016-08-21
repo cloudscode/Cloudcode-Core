@@ -96,4 +96,11 @@ public class StaffController extends CrudController<Staff> {
 				.queryPagingData(staff, pageRange);
 		return staffs;
 	}
+	
+	@RequestMapping(value = "userselect")
+	public ModelAndView userselect() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("classpath:com/cloudcode/organization/ftl/staff/userselect.ftl");
+		return modelAndView;
+	}
 }
