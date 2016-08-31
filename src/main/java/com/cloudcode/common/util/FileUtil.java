@@ -18,6 +18,18 @@ import java.util.List;
 import java.util.Map;
 
 public class FileUtil {
+	public static void isExist(List<String> paths) {
+		for (String string : paths) {
+			isExist(string);
+		}
+	}
+
+	public static void isExist(String path) {
+		File file = new File(path);
+		if (!file.exists()) {
+			file.mkdir();
+		}
+	}
 
     public static List<Map<String,Object>> upload(List<MultipartFile> files, String path){
         List<Map<String,Object>> result = new ArrayList<Map<String, Object>>();
