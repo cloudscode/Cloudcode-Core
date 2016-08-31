@@ -37,7 +37,7 @@ public class SystemFileController extends CrudController<SystemFile> {
 	CacheManager cacheManager;
 
 	@RequestMapping(value = "/createSystemFile", method = { RequestMethod.POST, RequestMethod.GET })
-	public @ResponseBody Object createSystemFile(@ModelAttribute SystemFile objs, @RequestParam MultipartFile[] myfiles,
+	public @ResponseBody Object createSystemFile(@ModelAttribute SystemFile objs, @RequestParam("attachment") MultipartFile[] myfiles,
 			HttpServletRequest request) {
 		String name = request.getParameter("name");
 		systemFileDao.addSystemFile(objs);
