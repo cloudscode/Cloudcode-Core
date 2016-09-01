@@ -1,8 +1,11 @@
 package com.cloudcode.system.mvc;
 
+import java.io.IOException;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -17,12 +20,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cloudcode.common.cache.Cache;
 import com.cloudcode.common.cache.CacheManager;
+import com.cloudcode.common.util.FileUpload;
 import com.cloudcode.framework.controller.CrudController;
 import com.cloudcode.framework.rest.ReturnResult;
 import com.cloudcode.framework.service.ServiceResult;
 import com.cloudcode.framework.utils.BeanUpdater;
 import com.cloudcode.framework.utils.PageRange;
 import com.cloudcode.framework.utils.PaginationSupport;
+import com.cloudcode.framework.utils.UUID;
 import com.cloudcode.system.dao.SystemFileDao;
 import com.cloudcode.system.model.SystemFile;
 
@@ -39,8 +44,6 @@ public class SystemFileController extends CrudController<SystemFile> {
 	@RequestMapping(value = "/createSystemFile", method = { RequestMethod.POST, RequestMethod.GET })
 	public @ResponseBody Object createSystemFile(@ModelAttribute SystemFile objs, @RequestParam("attachment") MultipartFile[] myfiles,
 			HttpServletRequest request) {
-		String name = request.getParameter("name");
-		systemFileDao.addSystemFile(objs);
 		for (MultipartFile myfile : myfiles) {
 			if (myfile.isEmpty()) {
 				System.out.println("文件未上传");
@@ -55,6 +58,30 @@ public class SystemFileController extends CrudController<SystemFile> {
 				// 这里不必处理IO流关闭的问题，因为FileUtils.copyInputStreamToFile()方法内部会自动把用到的IO流关掉，我是看它的源码才知道的
 				// FileUtils.copyInputStreamToFile(myfile.getInputStream(), new
 				// File(realPath, myfile.getOriginalFilename()));
+				try {
+					String name = request.getParameter("name");
+					String type = request.getParameter("type");
+					String serviceId = request.getParameter("serviceId");
+					String parentServiceId = request.getParameter("parentServiceId");
+					String path ="";
+					String fileType = FilenameUtils.getExtension(myfile.getOriginalFilename());
+					String filename = objs.getId()+"."+fileType;
+					String oName = myfile.getOriginalFilename().replace("."+fileType, "");
+					
+					path = FileUpload.uploadFile(myfile.getInputStream(), filename, type);
+					
+					objs.setId(UUID.generateUUID());
+					objs.setOriginalName(oName);
+					objs.setFileType(fileType);
+					objs.setType(type);
+					objs.setPath(path);
+					objs.setFileSize(myfile.getSize());
+					objs.setServiceId(serviceId);
+					objs.setParentServiceId(parentServiceId);
+					systemFileDao.addSystemFile(objs);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 
 		}

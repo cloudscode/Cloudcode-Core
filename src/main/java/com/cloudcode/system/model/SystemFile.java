@@ -90,5 +90,16 @@ public class SystemFile  extends BaseModelObject{
 	public void setParentServiceId(String parentServiceId) {
 		this.parentServiceId = parentServiceId;
 	}
-	
+	//originalName
+	private String originalName;
+	@Column(name="ONAME",length=512)
+	public String getOriginalName() {
+		return originalName;
+	}
+	public void setOriginalName(String originalName) {
+		this.originalName = originalName;
+	}
+		
+		
+		
 }
