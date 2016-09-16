@@ -23,7 +23,7 @@
 				success : function(data, textStatus) { //相当于java中try语句块的用法
 					//[{isSuccess:true|false,serverPath:XXXXX}]
 					Doing.hide();
-					if(data.success==false){
+					if(data.code==1){
 						Dialog.error("上传附件失败！"+data.msg);
 					}else{
 						Dialog.okmsg("上传附件成功！");

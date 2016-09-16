@@ -8,48 +8,94 @@
 <body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true"> 
 <div xtype="hh_content">
 <div class="container" id="layout" style="width: 100%;">
-<form role="form" class="form-horizontal" id="myFormId" action="${request.getContextPath()}/groups/createGroup" method="post">
+<form id="form" xtype="form">
+<span xtype="text" config=" hidden:true,name : 'id'"></span>
   <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">名称</label>
 	    <div class="col-sm-4">
-	      <input type="text" name="text" class="form-control" id="text" placeholder="名称">
+	       <span xtype="text" config=" name : 'text',required :true"></span>
 	    </div>
      <label for="inputPassword3" class="col-sm-2 control-label">父菜单</label>
    <div class="col-sm-4">
    
         <span id="node_span" xtype="selectTree"
-							config="name: 'idCode' , tableName : 'US_GROUP' , url : '../groups/tree' , params : {isNoLeaf : false} "></span>
+							config="name: 'idCode' , tableName : 'ORG_GROUP' , url : '../groups/queryTreeList' , params : {isNoLeaf : true} "></span>
 	</div>
     </div>
    <div class="form-group">
     	<label for="inputEmail3" class="col-sm-2 control-label">简称</label>
 	    <div class="col-sm-4">
-	      <input type="text" name="shortName" class="form-control" id="shortName" placeholder="简称">
+	       <span xtype="text" config=" name : 'shortName'"></span>
 	    </div>
    		<label for="inputEmail3" class="col-sm-2 control-label">编码</label>
 	    <div class="col-sm-4">
-	      <input type="text" name="code" class="form-control" id="code" placeholder="编码">
+	       <span xtype="text" config=" name : 'code',required :true"></span>
 	    </div>
   </div>
   <div class="form-group">
     	<label for="inputEmail3" class="col-sm-2 control-label">描述</label>
 	    <div class="col-sm-10">
-	      <input type="text" name="description" class="form-control" id="description" placeholder="描述">
+	       <span xtype="text" config=" name : 'description'"></span>
 	    </div>
   </div>
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-       <button type="button" id="updateButton" class="btn btn-default">save</button>
+    <div xtype="toolbar">
+        <span xtype="button" config="text:'保存' , onClick : page.save "></span>
      </div>
+      </div>
   </div>
 </form>
-<div id="divInDialog2" style="display:none">
-	</div>
 </div>
-<#include "classpath:com/cloudcode/framework/common/ftl/vendor.ftl"/>
-
+<#include "classpath:com/cloudcode/framework/common/ftl/require.ftl"/>
 <script type="text/javascript">
-var params = $.cc.getIframeParams();
+var page={};
+requirejs(['jquery','jquery','Request','jqueryui','main','text','select','date','radio','checkbox','textarea','password','ckeditor','button','validation','Request','combobox'], function( $, jQuery,Request ) {
+	var params = $.cc.getIframeParams();
+	var width = 720;
+	var height = 450
+	$("[xtype=form]").each(function() {
+		var config = $.cc.getConfig($(this));
+		if ($(this).is('form')) {
+			$.cc.validation.validation($(this), config);
+		}
+	});
+	var url='${request.getContextPath()}/groups/createGroup';
+	if('${entityAction}' =='update'){
+	  url='${request.getContextPath()}/groups/'+$("#id").val()+'/updateGroup'
+	}
+	page.save=function () {
+		$.cc.validation.check('form', function(formData) {
+			if(formData.idCode ==''){
+			    formData.idCode='root';
+			 }
+			Request.request(url, {
+				data : formData,
+				callback : function(result) {
+					if (result.code =1) {
+						params.callback();
+						Dialog.okmsg("数据保存成功!");
+						Dialog.close();
+					}else{
+						Dialog.errormsg("数据保存失败!");
+					}
+				}
+			});
+		});
+	}
+	$("[xtype]").each(function() {
+		$(this).render('initRender');
+	});
+	
+	if('${entityAction}' =='update'){
+		<#if entity?exists>  
+			$('#form').setValue(${entity!''});
+			//$('#form').setValue({'text':'text1'});
+		</#if>
+	}
+});
+
+<#--var params = $.cc.getIframeParams();
 	var width = 1000;
 	var height = 600;
 	$('#selectBtn').on('click',function(){
@@ -112,7 +158,7 @@ $(function () {
 			     	$('#idCode').val('root');
 			     }else{
 				     
-				 }debugger;
+				 }
 			    $.ajax({
 			        url: '${request.getContextPath()}/groups/createGroup',
 			        type: 'post',
@@ -148,7 +194,7 @@ $(function () {
 		</#if>
 	}
 });
-
+-->
 </script>
 </div>
 </body>

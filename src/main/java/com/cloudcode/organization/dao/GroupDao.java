@@ -32,9 +32,9 @@ public class GroupDao extends BaseModelObjectDao<Group> {
 		List<Object> list=null;
 		return this.queryPaginationSupport(Group.class, hqlParamList, pageRange);
 	}
-	public  List<Group> queryDataTreeByPid(String idCode) {
+	public  List<Group> queryDataTreeByPid(String node) {
 		HQLObjectParamList hqlParamList = new HQLObjectParamList()
-				.addCondition(Restrictions.eq("idCode", idCode));
+				.addCondition(Restrictions.eq("idCode", node));
 				
 		List<Group> groups = groupDao.queryTreeList(Group.class, hqlParamList);
 		return groups;

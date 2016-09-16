@@ -3,8 +3,8 @@ package com.cloudcode.organization.mvc;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -102,5 +102,19 @@ public class StaffController extends CrudController<Staff> {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("classpath:com/cloudcode/organization/ftl/staff/userselect.ftl");
 		return modelAndView;
+	}
+	public static void main(String[] args) {
+//		Md5PasswordEncoder md5 = new Md5PasswordEncoder();       
+//        // false 表示：生成32位的Hex版, 这也是encodeHashAsBase64的, Acegi 默认配置; true  表示：生成24位的Base64版       
+//        md5.setEncodeHashAsBase64(false);       
+//        String pwd = md5.encodePassword("admin", null);       
+//        System.out.println("MD5: " + pwd + " len=" + pwd.length());  
+        
+        Md5PasswordEncoder md5 = new Md5PasswordEncoder();       
+        md5.setEncodeHashAsBase64(false);       
+               
+        // 使用动态加密盐的只需要在注册用户的时候将第二个参数换成用户名即可       
+        String pwd = md5.encodePassword("admin", "admin");       
+        System.out.println("MD5 SystemWideSaltSource: " + pwd + " len=" + pwd.length());   
 	}
 }

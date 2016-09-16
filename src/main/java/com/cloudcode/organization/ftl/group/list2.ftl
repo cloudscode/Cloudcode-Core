@@ -30,6 +30,7 @@
 <script src="${request.getContextPath()}/static/jquery/ui/bootstrap/third-party/jqGrid/jqGrid/js/jquery.jqGrid.js" type="text/javascript"></script>
 <script src="${request.getContextPath()}/static/jquery/ui/bootstrap/third-party/jqGrid/jqGrid/js/grid.treegrid.js" type="text/javascript"></script>
 <!--end jqGrid-->
+<#include "classpath:com/cloudcode/framework/common/ftl/require.ftl"/>
 <script type="text/javascript">
 var grid = null;
 $(function(){
@@ -61,7 +62,7 @@ $(function(){
             altRows: true
         });     
     }
-
+<#--
 $( "#add" ).click(function(){
 	var    options={};
     options.title='集团选择';
@@ -96,7 +97,7 @@ $( "#edit" ).click(function(){
 	}else{
 		    Dialog.error("请选择一条要编辑的数据！");	
 	}
-}); 
+}); -->
 $( "#delete" ).click(function(){
 		var id;
 	      id = grid.jqGrid('getGridParam','selrow');
@@ -122,6 +123,34 @@ $( "#delete" ).click(function(){
 		grid.trigger('reloadGrid');
 	});
 	 $("#layout button,.button,#sampleButton").button();
+});
+requirejs(['jquery','Dialog','Request','jqueryui','main','text','select','date','radio','checkbox','textarea','password','ckeditor','button','validation','Request','combobox'], function( $, Dialog,Request ) {
+	
+	var    options={};
+	options.title='集团选择';
+   
+	options.width=1000;
+	options.height=800;
+	grid.trigger("reloadGrid");
+	options.params={
+		callback : function(data) {
+		   grid.trigger("reloadGrid");
+		}
+	};
+	$( "#add" ).click(function(){
+		options.url='${request.getContextPath()}/groups/collection/toDetail';
+		Dialog.open(options);
+	});
+	$( "#edit" ).click(function(){
+		var id; 
+		id = grid.jqGrid('getGridParam','selrow');
+		if(null != id && id.toString() != null && id.toString() != ""){
+			    options.url='${request.getContextPath()}/groups/'+id+'/toDetail';
+				Dialog.open(options);
+		}else{
+			    Dialog.error("请选择一条要编辑的数据！");	
+		}
+	}); 
 }); 
 </script>
 
