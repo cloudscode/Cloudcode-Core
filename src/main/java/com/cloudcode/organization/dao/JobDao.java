@@ -37,7 +37,7 @@ public class JobDao extends BaseModelObjectDao<Job> {
 	}
 	public  List<Job> queryDataTreeByPid(String node) {
 		HQLObjectParamList hqlParamList = new HQLObjectParamList()
-				.addCondition(Restrictions.eq("node", node));
+				.addCondition(Restrictions.eq("idCode", node));
 				
 		List<Job> jobs = jobDao.queryTreeList(Job.class, hqlParamList);
 		return jobs;

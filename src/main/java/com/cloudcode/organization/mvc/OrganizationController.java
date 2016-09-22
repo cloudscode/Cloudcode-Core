@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,7 @@ import com.cloudcode.framework.utils.PageRange;
 import com.cloudcode.framework.utils.PaginationSupport;
 import com.cloudcode.framework.utils.StringUtils;
 import com.cloudcode.organization.dao.OrganizationDao;
+import com.cloudcode.organization.model.Group;
 import com.cloudcode.organization.model.Organization;
 
 @Controller
@@ -37,9 +39,9 @@ public class OrganizationController extends CrudController<Organization> {
 	
 	@RequestMapping(value = "/createOrganization", method = RequestMethod.POST)
 	public @ResponseBody
-	void createOrganization(@ModelAttribute Organization org, HttpServletRequest request) {
-		String text = request.getParameter("text");
+	Object createOrganization(@ModelAttribute Organization org, HttpServletRequest request) {
 		orgDao.addOrganization(org);
+		return new ServiceResult(ReturnResult.SUCCESS);
 	}
 
 	@RequestMapping(value = "/{id}/updateOrganization", method = { RequestMethod.POST,
@@ -55,13 +57,13 @@ public class OrganizationController extends CrudController<Organization> {
 			orgDao.updateObject(org);
 			return new ServiceResult(ReturnResult.SUCCESS);
 		}
-		return null;
+		return new ServiceResult(ReturnResult.FAILURE);
 	}
 
 	@RequestMapping(value = "orgList")
 	public ModelAndView orgList() {
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("classpath:com/cloudcode/organization/ftl/org/list.ftl");
+		modelAndView.setViewName("classpath:com/cloudcode/organization/ftl/org/list2.ftl");
 		modelAndView.addObject("result", "cloudcode");
 		return modelAndView;
 	}
@@ -142,14 +144,68 @@ public class OrganizationController extends CrudController<Organization> {
 			Map<String, Object> maps = new HashMap<String, Object>();
 			maps.put("id", obj.getId());
 			maps.put("name", obj.getName());
-			//maps.put("action", obj.getAction());
-			maps.put("node", obj.getNode());
+			maps.put("text", obj.getName());
+			maps.put("node", obj.getIdCode());
+			maps.put("code", obj.getCode());
+			maps.put("shortName", obj.getShortName());
 			maps.put("expanded", false);
 			maps.put("isLeaf", false);
 			maps.put("parent", obj.getNode());
-			maps.put("level", n_level==null?0:(Integer.parseInt(n_level)+1));
+			maps.put("leaf", true);
+			if(StringUtils.isEmpty(n_level)){
+				maps.put("level", 0);
+			}else{
+				maps.put("level",Integer.parseInt(n_level)+1);
+			}
 			listMap.add(maps);
 		}
 		return listMap;
+	}
+	@RequestMapping(value = "/{id}/toDetail")
+	public ModelAndView toDetail(@PathVariable("id") String id) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("classpath:com/cloudcode/organization/ftl/org/detail2.ftl");
+		if("collection".equals(id)){
+			modelAndView.addObject("entityAction", "create");
+		}else{
+			Organization obj = orgDao.loadObject(id);
+			JSONObject json = JSONObject.fromObject(obj);
+			modelAndView.addObject("entity",json.toString() );
+			modelAndView.addObject("entityAction", "update");
+		}
+		return modelAndView;
+	}
+	@RequestMapping(value = "queryTreeList", method = {RequestMethod.POST, RequestMethod.GET }, produces = "application/json")
+	public @ResponseBody Object queryTreeList() {
+		List<Organization> lists = orgDao.findByProperty("idCode", "root");
+		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
+		for (Organization obj : lists) {
+			Map<String, Object> maps = new HashMap<String, Object>();
+			maps.put("id", obj.getId());
+			maps.put("name", obj.getName());
+			maps.put("text", obj.getName());
+			maps.put("pId", obj.getIdCode());
+			maps.put("parent", obj.getIdCode());
+			addChildren(maps,obj);
+			listMap.add(maps);
+		}
+		return listMap;
+	}
+	private void addChildren(Map<String, Object> maps2,Organization entity){
+		List<Organization> lists = orgDao.findByProperty("idCode", entity.getId());
+		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
+		if(lists.size()>0){
+			for (Organization obj : lists) {
+				Map<String, Object> maps = new HashMap<String, Object>();
+				maps.put("id", obj.getId());
+				maps.put("name", obj.getName());
+				maps.put("text", obj.getName());
+				maps.put("pId", obj.getIdCode());
+				maps.put("parent", obj.getId());
+				addChildren(maps,obj);
+				listMap.add(maps);
+			}
+			maps2.put("children", listMap);
+		}
 	}
 }

@@ -7,11 +7,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import net.sf.json.JSONArray;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +25,10 @@ import com.cloudcode.framework.utils.PaginationSupport;
 import com.cloudcode.framework.utils.StringUtils;
 import com.cloudcode.organization.dao.DepartmentDao;
 import com.cloudcode.organization.model.Department;
+import com.cloudcode.organization.model.Organization;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping("/depts")
@@ -36,9 +37,9 @@ public class DepartmentController extends CrudController<Department> {
 	private DepartmentDao deptDao;
 	@RequestMapping(value = "/createDepartment", method = RequestMethod.POST)
 	public @ResponseBody
-	void createDepartment(@ModelAttribute Department dept, HttpServletRequest request) {
-		String text = request.getParameter("text");
+	Object createDepartment(@ModelAttribute Department dept, HttpServletRequest request) {
 		deptDao.addDepartment(dept);
+		return new ServiceResult(ReturnResult.SUCCESS);
 	}
 
 	@RequestMapping(value = "/{id}/updateDepartment", method = { RequestMethod.POST,
@@ -49,18 +50,16 @@ public class DepartmentController extends CrudController<Department> {
 		Department dept = deptDao.loadObject(id);
 		if (dept != null) {
 			BeanUpdater.copyProperties(updateObject, dept);
-			// org.springframework.beans.BeanUtils.copyProperties(updateObject,
-			// dept);
 			deptDao.updateObject(dept);
 			return new ServiceResult(ReturnResult.SUCCESS);
 		}
-		return null;
+		return new ServiceResult(ReturnResult.FAILURE);
 	}
 
 	@RequestMapping(value = "deptList")
 	public ModelAndView deptList() {
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("classpath:com/cloudcode/organization/ftl/dept/list.ftl");
+		modelAndView.setViewName("classpath:com/cloudcode/organization/ftl/dept/list2.ftl");
 		modelAndView.addObject("result", "cloudcode");
 		return modelAndView;
 	}
@@ -142,14 +141,68 @@ public class DepartmentController extends CrudController<Department> {
 			Map<String, Object> maps = new HashMap<String, Object>();
 			maps.put("id", obj.getId());
 			maps.put("name", obj.getName());
-			//maps.put("action", obj.getAction());
-			maps.put("node", obj.getNode());
+			maps.put("text", obj.getName());
+			maps.put("node", obj.getIdCode());
+			maps.put("code", obj.getCode());
+			maps.put("shortName", obj.getShortName());
 			maps.put("expanded", false);
 			maps.put("isLeaf", false);
 			maps.put("parent", obj.getNode());
-			maps.put("level", n_level==null?0:(Integer.parseInt(n_level)+1));
+			maps.put("leaf", true);
+			if(StringUtils.isEmpty(n_level)){
+				maps.put("level", 0);
+			}else{
+				maps.put("level",Integer.parseInt(n_level)+1);
+			}
 			listMap.add(maps);
 		}
 		return listMap;
+	}
+	@RequestMapping(value = "/{id}/toDetail")
+	public ModelAndView toDetail(@PathVariable("id") String id) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("classpath:com/cloudcode/organization/ftl/dept/detail2.ftl");
+		if("collection".equals(id)){
+			modelAndView.addObject("entityAction", "create");
+		}else{
+			Department obj = deptDao.loadObject(id);
+			JSONObject json = JSONObject.fromObject(obj);
+			modelAndView.addObject("entity",json.toString() );
+			modelAndView.addObject("entityAction", "update");
+		}
+		return modelAndView;
+	}
+	@RequestMapping(value = "queryTreeList", method = {RequestMethod.POST, RequestMethod.GET }, produces = "application/json")
+	public @ResponseBody Object queryTreeList() {
+		List<Department> lists = deptDao.findByProperty("idCode", "root");
+		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
+		for (Department obj : lists) {
+			Map<String, Object> maps = new HashMap<String, Object>();
+			maps.put("id", obj.getId());
+			maps.put("name", obj.getName());
+			maps.put("text", obj.getName());
+			maps.put("pId", obj.getIdCode());
+			maps.put("parent", obj.getIdCode());
+			addChildren(maps,obj);
+			listMap.add(maps);
+		}
+		return listMap;
+	}
+	private void addChildren(Map<String, Object> maps2,Department entity){
+		List<Department> lists = deptDao.findByProperty("idCode", entity.getId());
+		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
+		if(lists.size()>0){
+			for (Department obj : lists) {
+				Map<String, Object> maps = new HashMap<String, Object>();
+				maps.put("id", obj.getId());
+				maps.put("name", obj.getName());
+				maps.put("text", obj.getName());
+				maps.put("pId", obj.getIdCode());
+				maps.put("parent", obj.getId());
+				addChildren(maps,obj);
+				listMap.add(maps);
+			}
+			maps2.put("children", listMap);
+		}
 	}
 }

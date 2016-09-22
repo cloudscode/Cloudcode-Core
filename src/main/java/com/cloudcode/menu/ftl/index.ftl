@@ -47,6 +47,28 @@ h1.site-title a, h1.site-title {
                      <li>
                         <a href="${request.getContextPath()}/lmenu/toIndex" target="blank">彩票系统</a>
                     </li>
+                    <li>
+	                    <div class="dropdown">
+						  <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						    Dropdown trigger
+						    <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu" aria-labelledby="dLabel">
+						  <li>
+		                        <a href="${request.getContextPath()}/orgs/orgList" target="blank">集团管理</a>
+		                    </li>
+						    <li>
+		                        <a href="${request.getContextPath()}/orgs/orgList" target="blank">机构管理</a>
+		                    </li>
+		                    <li>
+		                        <a href="${request.getContextPath()}/depts/deptList" target="blank">部门管理</a>
+		                    </li>
+		                    <li>
+		                        <a href="${request.getContextPath()}/jobs/jobList" target="blank">岗位管理</a>
+		                    </li>
+						  </ul>
+						</div>
+                    </li>
                     <!--<li>
                         <a href="./map.html">Map</a>
                     </li>

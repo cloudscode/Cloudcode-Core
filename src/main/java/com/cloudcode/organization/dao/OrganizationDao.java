@@ -38,7 +38,7 @@ public class OrganizationDao extends BaseModelObjectDao<Organization> {
 	
 	public  List<Organization> queryDataTreeByPid(String node) {
 		HQLObjectParamList hqlParamList = new HQLObjectParamList()
-				.addCondition(Restrictions.eq("node", node));
+				.addCondition(Restrictions.eq("idCode", node));
 				
 		List<Organization> orgs = organizationDao.queryTreeList(Organization.class, hqlParamList);
 		return orgs;

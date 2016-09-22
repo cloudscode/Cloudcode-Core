@@ -9,7 +9,7 @@
 <div xtype="hh_content">
 <div class="container" id="layout" style="width: 100%;">
 <form id="form" xtype="form">
-<span xtype="text" config=" hidden:true,name : 'id'"></span>
+  <span xtype="text" config=" hidden:true,name : 'id'"></span>
   <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">名称</label>
 	    <div class="col-sm-4">
@@ -60,15 +60,16 @@ requirejs(['jquery','jquery','Request','jqueryui','main','text','select','date',
 			$.cc.validation.validation($(this), config);
 		}
 	});
-	var url='${request.getContextPath()}/groups/createGroup';
-	if('${entityAction}' =='update'){
-	  url='${request.getContextPath()}/groups/'+$("#id").val()+'/updateGroup'
-	}
+	
 	page.save=function () {
 		$.cc.validation.check('form', function(formData) {
 			if(formData.idCode ==''){
 			    formData.idCode='root';
 			 }
+			var url='${request.getContextPath()}/groups/createGroup';
+			if('${entityAction}' =='update'){
+			  url='${request.getContextPath()}/groups/'+$("[name='id']").val()+'/updateGroup'
+			}
 			Request.request(url, {
 				data : formData,
 				callback : function(result) {

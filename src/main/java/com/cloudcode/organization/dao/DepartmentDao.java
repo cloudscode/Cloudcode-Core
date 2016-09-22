@@ -37,9 +37,10 @@ public class DepartmentDao extends BaseModelObjectDao<Department> {
 	}
 	public  List<Department> queryDataTreeByPid(String node) {
 		HQLObjectParamList hqlParamList = new HQLObjectParamList()
-				.addCondition(Restrictions.eq("node", node));
+				.addCondition(Restrictions.eq("idCode", node));
 				
 		List<Department> depts = departmentDao.queryTreeList(Department.class, hqlParamList);
 		return depts;
 	}
+	
 }
