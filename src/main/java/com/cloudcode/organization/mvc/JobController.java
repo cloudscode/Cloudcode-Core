@@ -25,9 +25,7 @@ import com.cloudcode.framework.utils.PaginationSupport;
 import com.cloudcode.framework.utils.StringUtils;
 import com.cloudcode.organization.dao.JobDao;
 import com.cloudcode.organization.model.Job;
-import com.cloudcode.organization.model.Job;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 @Controller
@@ -106,10 +104,8 @@ public class JobController extends CrudController<Job> {
 		return jobs;
 	}
 	
-	@RequestMapping(value = "queryDataTreeByPid", method = {
-			RequestMethod.POST, RequestMethod.GET }, produces = "application/json")
-	public @ResponseBody
-	JSONArray queryDataTreeByPid(HttpServletRequest request) {
+	@RequestMapping(value = "queryTree", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody Object queryTree(Job Job, PageRange pageRange, HttpServletRequest request) {
 		String nodeid =request.getParameter("nodeid");
 		String n_level =request.getParameter("n_level");
 		List<Job> lists = null;
@@ -138,7 +134,7 @@ public class JobController extends CrudController<Job> {
 			}
 			listMap.add(maps);
 		}
-		return JSONArray.fromObject(listMap);
+		return listMap;
 	}
 	@RequestMapping(value = "/{id}/toDetail")
 	public ModelAndView toDetail(@PathVariable("id") String id) {
