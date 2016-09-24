@@ -18,8 +18,11 @@ import com.cloudcode.framework.service.ServiceResult;
 import com.cloudcode.framework.utils.BeanUpdater;
 import com.cloudcode.framework.utils.PageRange;
 import com.cloudcode.framework.utils.PaginationSupport;
+import com.cloudcode.organization.model.Organization;
 import com.cloudcode.usersystem.dao.RoleDao;
 import com.cloudcode.usersystem.model.Role;
+
+import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping("/roles")
@@ -33,9 +36,9 @@ public class RoleController extends CrudController<Role>{
 	}
 	@RequestMapping(value = "/createRole", method = RequestMethod.POST)
 	public @ResponseBody
-	void createRole(@ModelAttribute Role role, HttpServletRequest request) {
-		String text = request.getParameter("text");
+	Object createRole(@ModelAttribute Role role, HttpServletRequest request) {
 		roleDao.addRole(role);
+		return new ServiceResult(ReturnResult.SUCCESS);
 	}
 
 	@RequestMapping(value = "/{id}/updateRole", method = { RequestMethod.POST,
@@ -51,13 +54,13 @@ public class RoleController extends CrudController<Role>{
 			roleDao.updateObject(role);
 			return new ServiceResult(ReturnResult.SUCCESS);
 		}
-		return null;
+		return new ServiceResult(ReturnResult.FAILURE);
 	}
 
 	@RequestMapping(value = "roleList")
 	public ModelAndView roleList() {
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("classpath:com/cloudcode/usersystem/ftl/role/list.ftl");
+		modelAndView.setViewName("classpath:com/cloudcode/usersystem/ftl/role/list2.ftl");
 		modelAndView.addObject("result", "cloudcode");
 		return modelAndView;
 	}
@@ -99,5 +102,19 @@ public class RoleController extends CrudController<Role>{
 		PaginationSupport<Role> roles = roleDao
 				.queryPagingData(role, pageRange);
 		return roles;
+	}
+	@RequestMapping(value = "/{id}/toDetail")
+	public ModelAndView toDetail(@PathVariable("id") String id) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("classpath:com/cloudcode/usersystem/ftl/role/detail2.ftl");
+		if("collection".equals(id)){
+			modelAndView.addObject("entityAction", "create");
+		}else{
+			Role obj = roleDao.loadObject(id);
+			JSONObject json = JSONObject.fromObject(obj);
+			modelAndView.addObject("entity",json.toString() );
+			modelAndView.addObject("entityAction", "update");
+		}
+		return modelAndView;
 	}
 }

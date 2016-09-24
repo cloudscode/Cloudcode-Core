@@ -66,6 +66,9 @@ h1.site-title a, h1.site-title {
 		                    <li>
 		                        <a href="${request.getContextPath()}/jobs/jobList" target="blank">岗位管理</a>
 		                    </li>
+		                    <li>
+		                        <a href="${request.getContextPath()}/roles/roleList" target="blank">角色管理</a>
+		                    </li>
 						  </ul>
 						</div>
                     </li>
