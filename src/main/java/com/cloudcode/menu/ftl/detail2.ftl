@@ -63,8 +63,8 @@ requirejs(['jquery','jquery','Request','jqueryui','main','text','select','date',
 	
 	page.save=function () {
 		$.cc.validation.check('form', function(formData) {
-			if(formData.idCode ==''){
-			    formData.idCode='root';
+			if(formData.code ==''){
+			    formData.code='root';
 			 }
 			var url='${request.getContextPath()}/menus/createMenu';
 			if('${entityAction}' =='update'){

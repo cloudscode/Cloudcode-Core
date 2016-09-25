@@ -23,7 +23,7 @@ import com.cloudcode.usersystem.model.RoleMenu;
 import net.sf.json.JSONObject;
 
 @Controller
-@RequestMapping("/roles")
+@RequestMapping("/rolemenus")
 public class RoleMenuController extends CrudController<RoleMenu>{
 
 	@Autowired
@@ -56,7 +56,7 @@ public class RoleMenuController extends CrudController<RoleMenu>{
 	@RequestMapping(value = "roleMenuList")
 	public ModelAndView roleMenuList() {
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("classpath:com/cloudcode/usersystem/ftl/role/list.ftl");
+		modelAndView.setViewName("classpath:com/cloudcode/usersystem/ftl/rolemenu/list.ftl");
 		modelAndView.addObject("result", "cloudcode");
 		return modelAndView;
 	}

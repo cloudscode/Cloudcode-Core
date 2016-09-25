@@ -18,9 +18,17 @@
 			</div>
 	</div>
 	<div class="row">
-	    <div class="col-lg-12 col-sm-12">
+	    <div class="col-lg-12 col-sm-6">
 	        <table id="jqGrid01" style="width:100%;"></table>
 	        <div id="jqGridPager01"></div>
+	    </div>
+	    <div class="col-lg-12 col-sm-6">
+	       <div id="menuTreeDiv" >
+				<div xtype="toolbar" config="type:'head'">
+					<span xtype="button" config="onClick:doSave,text:'保存权限'"></span>
+					&nbsp;<span id="menuTreeDivspan" style="color:red;" ></span>
+				</div>
+			</div>
 	    </div>
 	</div>
 <#include "classpath:com/cloudcode/framework/common/ftl/vendor.ftl"/>
@@ -40,7 +48,7 @@ $(function(){
             rowNum: 10,
             prmNames : {PageRange:{page:"page",rows:"rows"}  },
             rowList: [10,20,30],
-            colNames:['Id', '名称','类型','状态'],
+            colNames:['Id', '名称','类型','权限设置'],
             colModel:[
                 {name:'id',index:'id', width:60, hidden:true},
                 {name:'name',index:'name', width:100},
@@ -53,13 +61,9 @@ $(function(){
                 			return '业务角色';
                 		}
                 	}},
-                {name:'status',index:'status', width:90,formatter: function(cellvalue, options, rowObject){
-                		if(cellvalue ==0){
-                			return '正常';
-                		}else{
-                			return '冻结';
-                		}
-                	}}
+                {name:'id', width:30, formatter:function(cellvalue, options, rowObject){
+                	return renderoper(cellvalue, rowObject);
+                }}
             ],
             autowidth: true,
             height: "auto",            
@@ -72,7 +76,14 @@ $(function(){
         });     
     }
 });
-requirejs(['jquery','Dialog','Request','jqueryui','main','text','select','date','radio','checkbox','textarea','password','ckeditor','button','validation','Request','combobox'], function( $, Dialog,Request ) {
+function renderoper(value, row) {
+	return '<a  href="javascript:page.loadMenuTree(\'' + value
+			+ '\',\'' + row.name
+			+ '\')" >权限设置</a>';
+}
+var page={};
+var saveRoleId = null;
+requirejs(['jquery','Dialog','Request','tree','jqueryui','main','text','select','date','radio','checkbox','textarea','password','ckeditor','button','validation','Request','combobox'], function( $, Dialog,Request ) {
 	
 	var    options={};
 	options.title='角色信息';
@@ -98,7 +109,41 @@ requirejs(['jquery','Dialog','Request','jqueryui','main','text','select','date',
 		}else{
 			    Dialog.error("请选择一条要编辑的数据！");	
 		}
-	}); 
+	});
+	function menuTreeClick(treeNode) {
+	
+	}
+	page.treeconfig = {
+		id : 'menuTree',
+		url : '${request.getContextPath()}/menus/queryTree',
+		onClick : menuTreeClick,
+		check : {
+			enable : true,
+			chkboxType : {
+				"Y" : "ps",
+				"N" : "ps"
+			}
+		}
+	};
+	page.loadMenuTree=function (roleId,text) {
+		$("#menuTreeDiv").undisabled();
+		$("#menuTreeDivspan").html(text);
+		saveRoleId = roleId;
+		if ($('#menuid').length == 0) {
+			page.treeconfig.params = {
+				roleid : roleId
+			};
+			var menuTree = $('<span id="menuid" xtype="tree" configVar="page.treeconfig"></span>');
+			$('#menuTreeDiv').append(menuTree);
+			menuTree.render();
+		} else {
+			$.cc.tree.loadData('menuTree', {
+				params : {
+					roleid : roleId
+				}
+			});
+		}
+	} 
 });  
 </script>
 	<div id="divInDialog" style="display:none">

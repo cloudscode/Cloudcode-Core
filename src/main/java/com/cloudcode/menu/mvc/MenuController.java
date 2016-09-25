@@ -183,7 +183,8 @@ public class MenuController extends CrudController<Menu> {
 		return JSONArray.fromObject(listMap);
 	}
 
-	@RequestMapping(value = "queryTree", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "queryTree", method = { RequestMethod.POST,
+			RequestMethod.GET }, produces = "application/json")
 	public @ResponseBody Object queryTree(Menu menu, PageRange pageRange,
 			HttpServletRequest request) {
 		String nodeid = request.getParameter("nodeid");
@@ -213,7 +214,7 @@ public class MenuController extends CrudController<Menu> {
 	@RequestMapping(value = "/{id}/toDetail")
 	public ModelAndView toDetail(@PathVariable("id") String id) {
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("classpath:com/cloudcode/organization/ftl/org/detail2.ftl");
+		modelAndView.setViewName("classpath:com/cloudcode/menu/ftl/detail2.ftl");
 		if("collection".equals(id)){
 			modelAndView.addObject("entityAction", "create");
 		}else{

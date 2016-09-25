@@ -32,6 +32,9 @@ h1.site-title a, h1.site-title {
             </div>
             <nav class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                	<li class="active">
+                        <a href="${request.getContextPath()}/menus/menuList" target="view_window">菜单管理</a>
+                    </li>
                     <li class="active">
                         <a href="${request.getContextPath()}/categories/categoryList" target="view_window">字典信息</a>
                     </li>
@@ -68,6 +71,9 @@ h1.site-title a, h1.site-title {
 		                    </li>
 		                    <li>
 		                        <a href="${request.getContextPath()}/roles/roleList" target="blank">角色管理</a>
+		                    </li>
+		                    <li>
+		                        <a href="${request.getContextPath()}/rolemenus/roleMenuList" target="blank">角色权限</a>
 		                    </li>
 						  </ul>
 						</div>
