@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <title>机构信息</title>
+   <title>集团信息</title>
    <#include "classpath:com/cloudcode/framework/common/ftl/head.ftl"/>
 </head>
 
@@ -11,26 +11,26 @@
 <form id="form" xtype="form">
   <span xtype="text" config=" hidden:true,name : 'id'"></span>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">名称</label>
-	    <div class="col-sm-10">
-	       <span xtype="text" config=" name : 'name',required :true"></span>
+    <label for="inputEmail3" class="col-sm-2 control-label">菜单名称</label>
+	    <div class="col-sm-4">
+	       <span xtype="text" config=" name : 'text',required :true"></span>
 	    </div>
+     <label for="inputPassword3" class="col-sm-2 control-label">父菜单</label>
+   <div class="col-sm-4">
+   
+        <span id="node_span" xtype="selectTree"
+							config="name: 'code' , tableName : 'MENU_MENU' , url : '../menus/queryTreeList' , params : {isNoLeaf : true} "></span>
+	</div>
     </div>
-    <div class="form-group">
-    	<label for="inputEmail3" class="col-sm-2 control-label">状态</label>
-	    <div class="col-sm-10">
-	        <span xtype="radio"
-							config="name: 'status' ,defaultValue : 0,  data :[{id:0,text:'正常'},{id:1,text:'冻结'}]"></span>
-	    </div>
-   		
-  </div>
    <div class="form-group">
-    	<label for="inputEmail3" class="col-sm-2 control-label">类型</label>
-	    <div class="col-sm-10">
-	       <span xtype="radio"
-							config="name: 'type' ,defaultValue : 'Bussiness',  data :[{id:'Bussiness',text:'业务角色'},{id:'Admin',text:'管理角色'},{id:'System',text:'系统内置角色'}]"></span>
+    	<label for="inputEmail3" class="col-sm-2 control-label">动作</label>
+	    <div class="col-sm-4">
+	       <span xtype="text" config=" name : 'action'"></span>
 	    </div>
-   		
+   		<label for="inputEmail3" class="col-sm-2 control-label">编码</label>
+	    <div class="col-sm-4">
+	       <span xtype="text" config=" name : 'code',required :true"></span>
+	    </div>
   </div>
   <div class="form-group">
     	<label for="inputEmail3" class="col-sm-2 control-label">描述</label>
@@ -66,9 +66,9 @@ requirejs(['jquery','jquery','Request','jqueryui','main','text','select','date',
 			if(formData.idCode ==''){
 			    formData.idCode='root';
 			 }
-			var url='${request.getContextPath()}/roles/createRole';
+			var url='${request.getContextPath()}/menus/createMenu';
 			if('${entityAction}' =='update'){
-			  url='${request.getContextPath()}/roles/'+$("[name='id']").val()+'/updateRole'
+			  url='${request.getContextPath()}/menus/'+$("[name='id']").val()+'/updateMenu'
 			}
 			Request.request(url, {
 				data : formData,

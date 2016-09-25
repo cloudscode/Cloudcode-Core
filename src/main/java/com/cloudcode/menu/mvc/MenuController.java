@@ -7,10 +7,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import net.sf.json.JSONArray;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -34,6 +30,10 @@ import com.cloudcode.menu.model.Menu;
 import com.cloudcode.usersystem.model.User;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONException;
+import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping("/menus")
@@ -85,14 +85,15 @@ public class MenuController extends CrudController<Menu> {
 	public @ResponseBody void addMenu(@RequestBody Menu menu) {
 		menu.setId(UUID.generateUUID());
 		menuDao.addMenu(menu);
+		
 	}
 
 
 	@RequestMapping(value = "/createMenu", method = RequestMethod.POST)
-	public @ResponseBody void createMenu(@ModelAttribute Menu menu,
+	public @ResponseBody Object createMenu(@ModelAttribute Menu menu,
 			HttpServletRequest request) {
-		String text = request.getParameter("text");
 		menuDao.addMenu(menu);
+		return new ServiceResult(ReturnResult.SUCCESS);
 	}
 
 	@RequestMapping(value = "/{id}/updateMenu", method = { RequestMethod.POST,
@@ -107,13 +108,13 @@ public class MenuController extends CrudController<Menu> {
 			menuDao.updateObject(menu);
 			return new ServiceResult(ReturnResult.SUCCESS);
 		}
-		return null;
+		return new ServiceResult(ReturnResult.FAILURE);
 	}
 
 	@RequestMapping(value = "menuList")
 	public ModelAndView menuList() {
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("classpath:com/cloudcode/menu/ftl/list.ftl");
+		modelAndView.setViewName("classpath:com/cloudcode/menu/ftl/list2.ftl");
 		modelAndView.addObject("result", "cloudcode");
 		return modelAndView;
 	}	
@@ -208,5 +209,52 @@ public class MenuController extends CrudController<Menu> {
 			listMap.add(maps);
 		}
 		return listMap;
+	}
+	@RequestMapping(value = "/{id}/toDetail")
+	public ModelAndView toDetail(@PathVariable("id") String id) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("classpath:com/cloudcode/organization/ftl/org/detail2.ftl");
+		if("collection".equals(id)){
+			modelAndView.addObject("entityAction", "create");
+		}else{
+			Menu obj = menuDao.loadObject(id);
+			JSONObject json = JSONObject.fromObject(obj);
+			modelAndView.addObject("entity",json.toString() );
+			modelAndView.addObject("entityAction", "update");
+		}
+		return modelAndView;
+	}
+	@RequestMapping(value = "queryTreeList", method = {RequestMethod.POST, RequestMethod.GET }, produces = "application/json")
+	public @ResponseBody Object queryTreeList() {
+		List<Menu> lists = menuDao.findByProperty("idCode", "root");
+		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
+		for (Menu obj : lists) {
+			Map<String, Object> maps = new HashMap<String, Object>();
+			maps.put("id", obj.getId());
+			maps.put("name", obj.getName());
+			maps.put("text", obj.getName());
+			maps.put("pId", obj.getNode());
+			maps.put("parent", obj.getNode());
+			addChildren(maps,obj);
+			listMap.add(maps);
+		}
+		return listMap;
+	}
+	private void addChildren(Map<String, Object> maps2,Menu entity){
+		List<Menu> lists = menuDao.findByProperty("idCode", entity.getId());
+		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
+		if(lists.size()>0){
+			for (Menu obj : lists) {
+				Map<String, Object> maps = new HashMap<String, Object>();
+				maps.put("id", obj.getId());
+				maps.put("name", obj.getName());
+				maps.put("text", obj.getName());
+				maps.put("pId", obj.getNode());
+				maps.put("parent", obj.getId());
+				addChildren(maps,obj);
+				listMap.add(maps);
+			}
+			maps2.put("children", listMap);
+		}
 	}
 }

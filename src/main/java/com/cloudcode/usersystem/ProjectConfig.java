@@ -11,6 +11,7 @@ import com.cloudcode.framework.dao.ModelObjectDao;
 import com.cloudcode.framework.dao.impl.BaseDaoImpl;
 import com.cloudcode.usersystem.model.Acl;
 import com.cloudcode.usersystem.model.Role;
+import com.cloudcode.usersystem.model.RoleMenu;
 import com.cloudcode.usersystem.model.User;
 
 @ModuleConfig(name=ProjectConfig.NAME,domainPackages={"com.cloudcode.usersystem.model"})
@@ -31,5 +32,9 @@ public static final String PREFIX=NAME+".";
 	@Bean(name=PREFIX+"aclDao")
 	public ModelObjectDao<Acl> generateAclDao(){
 		return new BaseDaoImpl<Acl>(Acl.class);
+	}
+	@Bean(name=PREFIX+"roleMenuDao")
+	public ModelObjectDao<RoleMenu> generateRoleMenuDao(){
+		return new BaseDaoImpl<RoleMenu>(RoleMenu.class);
 	}
 }
