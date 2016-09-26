@@ -3,9 +3,12 @@ package com.cloudcode.common.security;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+
+import com.cloudcode.usersystem.model.RoleMenu;
 
 public class UserPrincipal extends User{
 
@@ -21,6 +24,7 @@ public class UserPrincipal extends User{
     private String language;
     private String loginTime;
     private com.cloudcode.usersystem.model.User user;
+    private List<RoleMenu> roleMenus;
     public UserPrincipal(String loginName, String userName, String userId, String userRole, String language, String password, boolean enabled,
             boolean accountNonExpired, boolean credentialsNonExpired,
             boolean accountNonLocked,
@@ -93,6 +97,14 @@ public class UserPrincipal extends User{
 
 	public void setUser(com.cloudcode.usersystem.model.User user) {
 		this.user = user;
+	}
+
+	public List<RoleMenu> getRoleMenus() {
+		return roleMenus;
+	}
+
+	public void setRoleMenus(List<RoleMenu> roleMenus) {
+		this.roleMenus = roleMenus;
 	}
 
 }

@@ -19,7 +19,7 @@
    <div class="col-sm-4">
    
         <span id="node_span" xtype="selectTree"
-							config="name: 'code' , tableName : 'MENU_MENU' , url : '../menus/queryTreeList' , params : {isNoLeaf : true} "></span>
+							config="name: 'node' , tableName : 'MENU_MENU' , url : '../menus/queryTreeList' , params : {isNoLeaf : true} "></span>
 	</div>
     </div>
    <div class="form-group">

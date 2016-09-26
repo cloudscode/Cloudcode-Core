@@ -45,6 +45,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                             	            true,
                             	            grantedAuths,userModel);
 	    
+	    
 	    return userdetail;
 	}
 	

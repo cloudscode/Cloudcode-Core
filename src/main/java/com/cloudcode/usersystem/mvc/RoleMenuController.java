@@ -1,5 +1,7 @@
 package com.cloudcode.usersystem.mvc;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +17,11 @@ import com.cloudcode.framework.controller.CrudController;
 import com.cloudcode.framework.rest.ReturnResult;
 import com.cloudcode.framework.service.ServiceResult;
 import com.cloudcode.framework.utils.BeanUpdater;
+import com.cloudcode.framework.utils.Convert;
 import com.cloudcode.framework.utils.PageRange;
 import com.cloudcode.framework.utils.PaginationSupport;
 import com.cloudcode.usersystem.dao.RoleMenuDao;
+import com.cloudcode.usersystem.model.Role;
 import com.cloudcode.usersystem.model.RoleMenu;
 
 import net.sf.json.JSONObject;
@@ -112,5 +116,17 @@ public class RoleMenuController extends CrudController<RoleMenu>{
 			modelAndView.addObject("entityAction", "update");
 		}
 		return modelAndView;
+	}
+	@RequestMapping(value = "saveRoleMenu", method = { RequestMethod.POST,RequestMethod.GET })
+	public @ResponseBody Object saveRoleMenu(Role object, String menuIds) {
+		roleMenuDao.deleteEntity(RoleMenu.class, "roleId", object.getId());
+		List<String> menuList = Convert.strToList(menuIds);
+		for (String menuId : menuList) {
+			RoleMenu roleMenu = new RoleMenu();
+			roleMenu.setMenuId(menuId);
+			roleMenu.setRoleId(object.getId());
+			roleMenuDao.createObject(roleMenu);
+		}
+		return new ServiceResult(ReturnResult.SUCCESS);
 	}
 }

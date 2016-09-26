@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -48,7 +49,7 @@ public class User extends BaseModelObject {
 	private boolean locked;
 	private Boolean invalid;
 	private Date expireDate;
-
+	private String roleIds;
 	@Column(length = 50)
 	public String getName() {
 		return name;
@@ -265,5 +266,13 @@ public class User extends BaseModelObject {
 	public void setExpireDate(Date expireDate) {
 		this.expireDate = expireDate;
 	}
-	
+	@Lob
+	@Column(name="roleids")
+	public String getRoleIds() {
+		return roleIds;
+	}
+
+	public void setRoleIds(String roleIds) {
+		this.roleIds = roleIds;
+	}
 }

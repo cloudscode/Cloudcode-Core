@@ -25,7 +25,7 @@
 	    <div class="col-lg-12 col-sm-6">
 	       <div id="menuTreeDiv" >
 				<div xtype="toolbar" config="type:'head'">
-					<span xtype="button" config="onClick:doSave,text:'保存权限'"></span>
+					<span xtype="button" config="onClick:page.doSave,text:'保存权限'"></span>
 					&nbsp;<span id="menuTreeDivspan" style="color:red;" ></span>
 				</div>
 			</div>
@@ -115,7 +115,7 @@ requirejs(['jquery','Dialog','Request','tree','jqueryui','main','text','select',
 	}
 	page.treeconfig = {
 		id : 'menuTree',
-		url : '${request.getContextPath()}/menus/queryTree',
+		url : '${request.getContextPath()}/menus/queryTreeList',
 		onClick : menuTreeClick,
 		check : {
 			enable : true,
@@ -143,7 +143,24 @@ requirejs(['jquery','Dialog','Request','tree','jqueryui','main','text','select',
 				}
 			});
 		}
+	};
+	page.doSave=function () {
+		if (saveRoleId) {
+			var menuids = $.cc.objsToStr($.cc.tree
+					.getCheckedNodes('menuTree'), 'id');
+			Request.request('${request.getContextPath()}/rolemenus/saveRoleMenu', {
+				data : {
+					menuIds : menuids,
+					id : saveRoleId
+				}
+			});
+		} else {
+			Dialog.infomsg('请选择角色！');
+		}
 	} 
+	$("[xtype]").each(function() {
+		$(this).render('initRender');
+	});
 });  
 </script>
 	<div id="divInDialog" style="display:none">

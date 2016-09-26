@@ -227,7 +227,7 @@ public class MenuController extends CrudController<Menu> {
 	}
 	@RequestMapping(value = "queryTreeList", method = {RequestMethod.POST, RequestMethod.GET }, produces = "application/json")
 	public @ResponseBody Object queryTreeList() {
-		List<Menu> lists = menuDao.findByProperty("idCode", "root");
+		List<Menu> lists = menuDao.findByProperty("node", "root");
 		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
 		for (Menu obj : lists) {
 			Map<String, Object> maps = new HashMap<String, Object>();
@@ -242,7 +242,7 @@ public class MenuController extends CrudController<Menu> {
 		return listMap;
 	}
 	private void addChildren(Map<String, Object> maps2,Menu entity){
-		List<Menu> lists = menuDao.findByProperty("idCode", entity.getId());
+		List<Menu> lists = menuDao.findByProperty("node", entity.getId());
 		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
 		if(lists.size()>0){
 			for (Menu obj : lists) {
