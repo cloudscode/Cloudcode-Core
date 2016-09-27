@@ -23,6 +23,7 @@ import com.cloudcode.framework.utils.PaginationSupport;
 import com.cloudcode.usersystem.dao.RoleMenuDao;
 import com.cloudcode.usersystem.model.Role;
 import com.cloudcode.usersystem.model.RoleMenu;
+import com.cloudcode.usersystem.utils.CurrentUserInfo;
 
 import net.sf.json.JSONObject;
 
@@ -32,7 +33,8 @@ public class RoleMenuController extends CrudController<RoleMenu>{
 
 	@Autowired
 	private RoleMenuDao roleMenuDao;
-	
+	@Autowired
+	private CurrentUserInfo currentUserInfo;
 	
 	@RequestMapping(value = "/createRoleMenu", method = RequestMethod.POST)
 	public @ResponseBody
@@ -61,7 +63,8 @@ public class RoleMenuController extends CrudController<RoleMenu>{
 	public ModelAndView roleMenuList() {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("classpath:com/cloudcode/usersystem/ftl/rolemenu/list.ftl");
-		modelAndView.addObject("result", "cloudcode");
+		if(null !=currentUserInfo.getCurrentUserInfo())
+			System.out.println(currentUserInfo.getCurrentUserInfo().getUserName());
 		return modelAndView;
 	}
 
