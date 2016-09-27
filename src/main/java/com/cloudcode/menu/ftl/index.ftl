@@ -101,7 +101,9 @@ h1.site-title a, h1.site-title {
             </nav>
         </div>
     </header>
+    <div style="margin-top: 60px;"> 
 <iframe  id="myFrameId"  src="${request.getContextPath()}/categories/categoryList" name="view_window"  scrolling="no" frameborder="0" style="width:100%;" onload="javascript:dyniframesize('myFrameId');" ></iframe>
+</div>
 <#include "classpath:com/cloudcode/framework/common/ftl/vendor.ftl"/>
 <script type="text/javascript">
   function dyniframesize(down) { 
