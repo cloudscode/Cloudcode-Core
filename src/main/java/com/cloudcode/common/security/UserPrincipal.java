@@ -5,13 +5,17 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.stereotype.Repository;
 
+import com.cloudcode.menu.model.Menu;
+import com.cloudcode.usersystem.dao.RoleMenuDao;
 import com.cloudcode.usersystem.model.RoleMenu;
-
 public class UserPrincipal extends User{
-
+	
     /**
      * 
      */
@@ -25,6 +29,8 @@ public class UserPrincipal extends User{
     private String loginTime;
     private com.cloudcode.usersystem.model.User user;
     private List<RoleMenu> roleMenus;
+    private List<Menu> menus;
+  
     public UserPrincipal(String loginName, String userName, String userId, String userRole, String language, String password, boolean enabled,
             boolean accountNonExpired, boolean credentialsNonExpired,
             boolean accountNonLocked,
@@ -40,7 +46,6 @@ public class UserPrincipal extends User{
         this.language = language;
         this.loginTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         this.user = user;
-
     }
     
     public String getLoginName() {
@@ -105,6 +110,14 @@ public class UserPrincipal extends User{
 
 	public void setRoleMenus(List<RoleMenu> roleMenus) {
 		this.roleMenus = roleMenus;
+	}
+
+	public List<Menu> getMenus() {
+		return menus;
+	}
+
+	public void setMenus(List<Menu> menus) {
+		this.menus = menus;
 	}
 
 }

@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cloudcode.usersystem.dao.RoleMenuDao;
 import com.cloudcode.usersystem.dao.UserDao;
 
 @Service
@@ -23,6 +24,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	
     @Resource
     private UserDao userDao;
+    @Resource
+	private RoleMenuDao roleMenuDao;
     
 	public UserDetails loadUserByUsername(String loginName) throws UsernameNotFoundException {
 		
@@ -33,7 +36,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	    
 	    Set<GrantedAuthority> grantedAuths = obtionGrantedAuthorities();
         
-	    User userdetail = new UserPrincipal(userModel.getUserName(), 
+	    UserPrincipal userdetail = new UserPrincipal(userModel.getUserName(), 
                             	            userModel.getLoginId(),
                             	            userModel.getLoginId(),
                             	            "ROLE_USER",
@@ -44,8 +47,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                             	            true,
                             	            true,
                             	            grantedAuths,userModel);
-	    
-	    
+	    roleMenuDao.getUserRoleMenu(userModel,userdetail);
 	    return userdetail;
 	}
 	

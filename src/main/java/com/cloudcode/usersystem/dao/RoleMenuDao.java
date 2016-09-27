@@ -5,11 +5,10 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.cloudcode.common.security.UserPrincipal;
 import com.cloudcode.framework.dao.BaseModelObjectDao;
 import com.cloudcode.framework.dao.ModelObjectDao;
 import com.cloudcode.framework.utils.HQLParamList;
@@ -17,6 +16,7 @@ import com.cloudcode.framework.utils.PageRange;
 import com.cloudcode.framework.utils.PaginationSupport;
 import com.cloudcode.framework.utils.StringUtils;
 import com.cloudcode.framework.utils.UUID;
+import com.cloudcode.framework.utils.dao.ParamFactory;
 import com.cloudcode.menu.dao.MenuDao;
 import com.cloudcode.menu.model.Menu;
 import com.cloudcode.usersystem.ProjectConfig;
@@ -42,21 +42,25 @@ public class RoleMenuDao extends BaseModelObjectDao<RoleMenu> {
 		List<Object> list=null;
 		return this.queryPaginationSupport(RoleMenu.class, hqlParamList, pageRange);
 	}
-	public List<Menu> getUserRoleMenu(User user) {
+	public List<Menu> getUserRoleMenu(User user,UserPrincipal userPrincipal) {
 		List<Menu> menus=new ArrayList<Menu>();
 		List<RoleMenu> roleMenus=new ArrayList<RoleMenu>();
 		List<String> menuIds = new ArrayList<String>();
+		List<String> roleIds = new ArrayList<String>();
 		if(!StringUtils.isEmpty(user.getRoleIds())){
-			
-			Criteria criteria = roleDao.getSession().createCriteria(RoleMenu.class);
-			criteria.add(Restrictions.in("id", user.getRoleIds().split(",")));
-			roleMenus= criteria.list();
-			
-			for(RoleMenu roleMenu:roleMenus){
-				menuIds.add(roleMenu.getMenuId());
+			for(String roleId:user.getRoleIds().split(",")){
+				roleIds.add(roleId);
 			}
-			menus=menuDao.queryList(Menu.class, "id",
-					menuIds);
+			roleMenus= roleDao.queryList(RoleMenu.class, ParamFactory.getParamHb().in("roleId", roleIds));
+			if(!StringUtils.isEmpty(user.getRoleIds())){
+				userPrincipal.setRoleMenus(roleMenus);
+				for(RoleMenu roleMenu:roleMenus){
+					menuIds.add(roleMenu.getMenuId());
+				}
+			
+				menus=menuDao.queryList(Menu.class, "id",menuIds);
+				userPrincipal.setMenus(menus);
+			}
 		}
 		return menus;
 	}
