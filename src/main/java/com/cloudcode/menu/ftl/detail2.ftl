@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <title>集团信息</title>
+   <title>菜单信息</title>
    <#include "classpath:com/cloudcode/framework/common/ftl/head.ftl"/>
 </head>
 

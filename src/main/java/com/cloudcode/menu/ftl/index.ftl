@@ -53,7 +53,7 @@ h1.site-title a, h1.site-title {
                     <li>
 	                    <div class="dropdown">
 						  <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						    Dropdown trigger
+						   组织机构管理
 						    <span class="caret"></span>
 						  </button>
 						  <ul class="dropdown-menu" aria-labelledby="dLabel">
@@ -78,6 +78,20 @@ h1.site-title a, h1.site-title {
 						  </ul>
 						</div>
                     </li>
+                     <li>
+	                    <div class="dropdown">
+						  <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						   流程管理
+						    <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu" aria-labelledby="dLabel">
+						  <li>
+		                        <a href="${request.getContextPath()}/workFlowMenus/0/design" target="blank">流程设计器</a>
+		                    </li>
+		                   </ul>
+		                </div>
+                    </li>    
+		                    
                     <!--<li>
                         <a href="./map.html">Map</a>
                     </li>

@@ -91,7 +91,7 @@ $( "#delete" ).click(function(){
 requirejs(['jquery','Dialog','Request','jqueryui','main','text','select','date','radio','checkbox','textarea','password','ckeditor','button','validation','Request','combobox'], function( $, Dialog,Request ) {
 	
 	var    options={};
-	options.title='集团选择';
+	options.title='菜单选择';
    
 	options.width=1000;
 	options.height=800;
