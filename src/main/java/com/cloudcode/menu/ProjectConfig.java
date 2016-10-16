@@ -11,7 +11,7 @@ import com.cloudcode.framework.dao.impl.BaseTreeNodeDaoImpl;
 import com.cloudcode.menu.model.Menu;
 
 @ModuleConfig(name=ProjectConfig.NAME,domainPackages={"com.cloudcode.menu.model"})
-@ComponentScan(basePackages={"com.cloudcode.menu.*"},nameGenerator=ProjectBeanNameGenerator.class)
+@ComponentScan(basePackages={"com.cloudcode.menu.*,com.cloudcode.report.*"},nameGenerator=ProjectBeanNameGenerator.class)
 @PropertySource(name="cloudcode.evn",value={"classpath:proj.properties"})
 public class ProjectConfig {
 	public static final String NAME="menu";
