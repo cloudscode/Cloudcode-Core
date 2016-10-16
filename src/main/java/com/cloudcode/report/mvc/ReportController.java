@@ -16,10 +16,10 @@ public class ReportController{
 		 
 		return modelAndView;
 	}
-	@RequestMapping(value = "menu")
-	public ModelAndView menu() {
+	@RequestMapping(value = "highchart")
+	public ModelAndView highchart() {
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("classpath:com/cloudcode/menu/ftl/menu.ftl");
+		modelAndView.setViewName("classpath:com/cloudcode/report/ftl/highchart.ftl");
 		return modelAndView;
 	}
 }

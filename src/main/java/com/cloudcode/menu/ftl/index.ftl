@@ -86,7 +86,18 @@ h1.site-title a, h1.site-title {
 					      <li class="divider"></li>
                			</ul>
              	  </li>
-                    
+                    <li class="dropdown ">
+		                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+						  <i class="glyphicon glyphicon-list"></i>
+						  图表 <b class="caret"></b>
+						</a>
+		                <ul class="dropdown-menu">
+					      <li><a href="${request.getContextPath()}/report/echart" target="blank"><i class="glyphicon glyphicon-list"></i> echart</a></li>
+					      <li class="divider"></li>
+					        <li><a href="${request.getContextPath()}/report/highchart" target="blank"><i class="glyphicon glyphicon-list"></i> highchart</a></li>
+					      <li class="divider"></li>
+               			</ul>
+             	  </li>
                 
                 <li><a href="./j_spring_security_logout"><i class="glyphicon glyphicon-list"></i> 退出</a></li>
                 </ul>
