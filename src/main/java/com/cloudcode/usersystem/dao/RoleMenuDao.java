@@ -30,36 +30,41 @@ public class RoleMenuDao extends BaseModelObjectDao<RoleMenu> {
 	private ModelObjectDao<RoleMenu> roleDao;
 	@Autowired
 	MenuDao menuDao;
+
 	public void addRoleMenu(RoleMenu entity) {
-		if(null == entity.getId() || "".equals(entity.getId())){
+		if (null == entity.getId() || "".equals(entity.getId())) {
 			entity.setId(UUID.generateUUID());
 		}
 		roleDao.createObject(entity);
 	}
-	
+
 	public PaginationSupport<RoleMenu> queryPagingData(RoleMenu hhXtCd, PageRange pageRange) {
 		HQLParamList hqlParamList = new HQLParamList();
-		List<Object> list=null;
+		List<Object> list = null;
 		return this.queryPaginationSupport(RoleMenu.class, hqlParamList, pageRange);
 	}
-	public List<Menu> getUserRoleMenu(User user,UserPrincipal userPrincipal) {
-		List<Menu> menus=new ArrayList<Menu>();
-		List<RoleMenu> roleMenus=new ArrayList<RoleMenu>();
+
+	public List<Menu> getUserRoleMenu(User user, UserPrincipal userPrincipal) {
+		List<Menu> menus = new ArrayList<Menu>();
+		List<RoleMenu> roleMenus = new ArrayList<RoleMenu>();
 		List<String> menuIds = new ArrayList<String>();
 		List<String> roleIds = new ArrayList<String>();
-		if(!StringUtils.isEmpty(user.getRoleIds())){
-			for(String roleId:user.getRoleIds().split(",")){
+		if (!StringUtils.isEmpty(user.getRoleIds())) {
+			for (String roleId : user.getRoleIds().split(",")) {
 				roleIds.add(roleId);
 			}
-			roleMenus= roleDao.queryList(RoleMenu.class, ParamFactory.getParamHb().in("roleId", roleIds));
-			if(!StringUtils.isEmpty(user.getRoleIds())){
-				userPrincipal.setRoleMenus(roleMenus);
-				for(RoleMenu roleMenu:roleMenus){
-					menuIds.add(roleMenu.getMenuId());
+			if (roleIds.size() > 0) {
+				roleMenus = roleDao.queryList(RoleMenu.class, ParamFactory.getParamHb().in("roleId", roleIds));
+				if (!StringUtils.isEmpty(user.getRoleIds())) {
+					userPrincipal.setRoleMenus(roleMenus);
+					for (RoleMenu roleMenu : roleMenus) {
+						menuIds.add(roleMenu.getMenuId());
+					}
+					if (menuIds.size() > 0) {
+						menus = menuDao.queryList(Menu.class, "id", menuIds);
+						userPrincipal.setMenus(menus);
+					}
 				}
-			
-				menus=menuDao.queryList(Menu.class, "id",menuIds);
-				userPrincipal.setMenus(menus);
 			}
 		}
 		return menus;

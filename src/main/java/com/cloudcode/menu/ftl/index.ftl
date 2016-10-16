@@ -33,84 +33,62 @@ h1.site-title a, h1.site-title {
             <nav class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                 	<li class="active">
-                        <a href="${request.getContextPath()}/menus/menuList" target="view_window">菜单管理</a>
+                        <a href="${request.getContextPath()}/menus/menuList" target="view_window"><i class="glyphicon glyphicon-list"></i>菜单管理</a>
                     </li>
                     <li class="active">
-                        <a href="${request.getContextPath()}/categories/categoryList" target="view_window">字典信息</a>
+                        <a href="${request.getContextPath()}/categories/categoryList" target="view_window"><i class="glyphicon glyphicon-list"></i>字典信息</a>
                     </li>
                     <li>
-                        <a href="${request.getContextPath()}/forecast/toSearch" target="view_window">筛选信息</a>
+                        <a href="${request.getContextPath()}/forecast/toSearch" target="view_window"><i class="glyphicon glyphicon-list"></i>筛选信息</a>
                     </li>
                     <li>
-                        <a href="${request.getContextPath()}/forecastIssue/toList" target="view_window">预测信息</a>
+                        <a href="${request.getContextPath()}/forecastIssue/toList" target="view_window"><i class="glyphicon glyphicon-list"></i>预测信息</a>
                     </li>
                      <li>
-                        <a href="${request.getContextPath()}/lottery/toList" target="view_window">基础库信息</a>
+                        <a href="${request.getContextPath()}/lottery/toList" target="view_window"><i class="glyphicon glyphicon-list"></i>基础库信息</a>
                     </li>
                      <li>
-                        <a href="${request.getContextPath()}/lmenu/toIndex" target="blank">彩票系统</a>
+                        <a href="${request.getContextPath()}/lmenu/toIndex" target="blank"><i class="glyphicon glyphicon-list"></i>彩票系统</a>
                     </li>
-                    <li>
-	                    <div class="dropdown">
-						  <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						   组织机构管理
-						    <span class="caret"></span>
-						  </button>
-						  <ul class="dropdown-menu" aria-labelledby="dLabel">
-						  <li>
-		                        <a href="${request.getContextPath()}/orgs/orgList" target="blank">集团管理</a>
-		                    </li>
-						    <li>
-		                        <a href="${request.getContextPath()}/orgs/orgList" target="blank">机构管理</a>
-		                    </li>
+                    
+                    <li class="dropdown ">
+		                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+						  <i class="glyphicon glyphicon-list"></i>
+						  组织机构管理 <b class="caret"></b>
+						</a>
+		                <ul class="dropdown-menu">
+					      <li><a href="${request.getContextPath()}/orgs/orgList" target="blank"><i class="glyphicon glyphicon-list"></i> 集团管理</a></li>
+					      <li class="divider"></li>
+               				<li>
+		                        <a href="${request.getContextPath()}/orgs/orgList" target="blank"><i class="glyphicon glyphicon-list"></i>机构管理</a>
+		                    </li> <li class="divider"></li>
 		                    <li>
-		                        <a href="${request.getContextPath()}/depts/deptList" target="blank">部门管理</a>
-		                    </li>
+		                        <a href="${request.getContextPath()}/depts/deptList" target="blank"><i class="glyphicon glyphicon-list"></i>部门管理</a>
+		                    </li> <li class="divider"></li>
 		                    <li>
-		                        <a href="${request.getContextPath()}/jobs/jobList" target="blank">岗位管理</a>
-		                    </li>
+		                        <a href="${request.getContextPath()}/jobs/jobList" target="blank"><i class="glyphicon glyphicon-list"></i>岗位管理</a>
+		                    </li> <li class="divider"></li>
 		                    <li>
-		                        <a href="${request.getContextPath()}/roles/roleList" target="blank">角色管理</a>
-		                    </li>
+		                        <a href="${request.getContextPath()}/roles/roleList" target="blank"><i class="glyphicon glyphicon-list"></i>角色管理</a>
+		                    </li> <li class="divider"></li>
 		                    <li>
-		                        <a href="${request.getContextPath()}/rolemenus/roleMenuList" target="blank">角色权限</a>
-		                    </li>
-						  </ul>
-						</div>
-                    </li>
-                     <li>
-	                    <div class="dropdown">
-						  <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						   流程管理
-						    <span class="caret"></span>
-						  </button>
-						  <ul class="dropdown-menu" aria-labelledby="dLabel">
-						  <li>
-		                        <a href="${request.getContextPath()}/workFlowMenus/0/design" target="blank">流程设计器</a>
-		                    </li>
-		                   </ul>
-		                </div>
-                    </li>    
-		                    
-                    <!--<li>
-                        <a href="./map.html">Map</a>
-                    </li>
-                    <li>
-                        <a href="http://github.com/addyosmani/jquery-ui-bootstrap/issues">Feedback/Issues</a>
-                    </li>
-                    <li>
-                        <a href="http://twitter.com/addyosmani">Contact</a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            Switch Theme <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="./index.html">Default Bootstrap Theme (Non LESS'd)</a></li>
-                            <li><a href="theme/united/index.html">United Theme via Bootswatch (LESS'd)</a></li>
-                            <li><a href="theme/base/index.html">Default Bootstrap Theme (LESS'd)</a></li>
-                        </ul>
-                    </li>-->
+		                        <a href="${request.getContextPath()}/rolemenus/roleMenuList" target="blank"><i class="glyphicon glyphicon-list"></i>角色权限</a>
+		                    </li> <li class="divider"></li>
+               			</ul>
+              </li>
+                    <li class="dropdown ">
+		                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+						  <i class="glyphicon glyphicon-list"></i>
+						  流程管理 <b class="caret"></b>
+						</a>
+		                <ul class="dropdown-menu">
+					      <li><a href="${request.getContextPath()}/workFlowMenus/0/design" target="blank"><i class="glyphicon glyphicon-list"></i> 流程设计器</a></li>
+					      <li class="divider"></li>
+               			</ul>
+             	  </li>
+                    
+                
+                <li><a href="./j_spring_security_logout"><i class="glyphicon glyphicon-list"></i> 退出</a></li>
                 </ul>
             </nav>
         </div>
