@@ -23,9 +23,9 @@
 </div>
 <#include "classpath:com/cloudcode/framework/common/ftl/vendor.ftl"/>
 <!--jqGrid-->
-<script src="${request.getContextPath()}/static/jquery/ui/bootstrap/third-party/jqGrid/jqGrid/js/i18n/grid.locale-cn.js" type="text/javascript"></script>
-<script src="${request.getContextPath()}/static/jquery/ui/bootstrap/third-party/jqGrid/jqGrid/js/jquery.jqGrid.js" type="text/javascript"></script>
-<script src="${request.getContextPath()}/static/jquery/ui/bootstrap/third-party/jqGrid/jqGrid/js/grid.treegrid.js" type="text/javascript"></script>
+<script src="/cccommon/static/jquery/ui/bootstrap/third-party/jqGrid/jqGrid/js/i18n/grid.locale-cn.js" type="text/javascript"></script>
+<script src="/cccommon/static/jquery/ui/bootstrap/third-party/jqGrid/jqGrid/js/jquery.jqGrid.js" type="text/javascript"></script>
+<script src="/cccommon/static/jquery/ui/bootstrap/third-party/jqGrid/jqGrid/js/grid.treegrid.js" type="text/javascript"></script>
 <!--end jqGrid-->
 <script type="text/javascript">
 var grid = null;

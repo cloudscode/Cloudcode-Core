@@ -6,9 +6,9 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,7 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cloudcode.usersystem.dao.RoleMenuDao;
 import com.cloudcode.usersystem.dao.UserDao;
-
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;    
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 @Service
 @Transactional(rollbackFor=Exception.class)
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -68,5 +69,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return authSet;
     }
     
-    
+    public static void main(String[] args) {
+    	Md5PasswordEncoder md5 = new Md5PasswordEncoder();       
+        // false 表示：生成32位的Hex版, 这也是encodeHashAsBase64的, Acegi 默认配置; true  表示：生成24位的Base64版       
+        md5.setEncodeHashAsBase64(false);       
+        String pwd = md5.encodePassword("000000", "admin");       
+        System.out.println("MD5: " + pwd + " len=" + pwd.length());
+	}
 }
